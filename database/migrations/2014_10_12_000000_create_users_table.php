@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('name');
-            $table->integer('national_id');
-            $table->integer('phone');
+            $table->integer('national_id')->unique();
+            $table->integer('phone')->unique();
             $table->string('address');
             $table->string('image');
             $table->string('link')->nullable();

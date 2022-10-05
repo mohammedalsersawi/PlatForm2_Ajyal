@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('coaches', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('national_id');
-            $table->integer('phone');
+            $table->integer('national_id')->unique();
+            $table->integer('phone')->unique();
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('address');
             $table->string('image');
