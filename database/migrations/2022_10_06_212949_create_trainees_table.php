@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('trainees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
@@ -21,7 +21,13 @@ return new class extends Migration
             $table->integer('phone')->unique();
             $table->string('address');
             $table->string('image');
-            $table->rememberToken();
+            $table->string('link')->nullable();
+            $table->integer('job_number')->nullable();
+            $table->integer('total_income')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->enum('level', ['Featured', 'weak'])->nullable();
+            $table->enum('status', ['active', 'archived'])->default('active');
+            $table->enum('account_status', ['active', 'archived'])->default('active');
             $table->timestamps();
         });
     }
@@ -33,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('trainees');
     }
 };

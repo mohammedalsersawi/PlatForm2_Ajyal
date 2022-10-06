@@ -17,18 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('name');
-            $table->integer('national_id')->unique();
-            $table->integer('phone')->unique();
-            $table->string('address');
-            $table->string('image');
-            $table->string('link')->nullable();
-            $table->integer('job_number')->nullable();
-            $table->integer('total_income')->nullable();
-            $table->enum('gender', ['male', 'female'])->nullable();
-            $table->enum('level', ['Featured', 'weak'])->nullable();
-            $table->enum('status', ['active', 'archived'])->default('active');
-            $table->enum('account_status', ['active', 'archived'])->default('active');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
