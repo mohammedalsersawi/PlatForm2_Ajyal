@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('time');
             $table->foreignId('coach_id')->constrained('coaches')->cascadeOnDelete();
             $table->date('start_date');
-            $table->enum('classification', ['مدني', 'Freelance' , 'تقني ']);
+            $table->enum('classification', ['مدني', 'فري لانسر' , 'تقني ']);
             $table->timestamps();
         });
     }
