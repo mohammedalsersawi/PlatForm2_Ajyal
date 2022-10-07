@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('phone')->unique();
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('address');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('Specialization');
             $table->rememberToken();
             $table->timestamps();

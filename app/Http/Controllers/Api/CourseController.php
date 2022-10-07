@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
@@ -20,9 +21,7 @@ class CourseController extends Controller
         ]);
         if($validator->fails()){
             return response()->json($validator->errors(), 422);
-
         }else {
-
         $data = $request->all();
         $course =  Course::create($data);
         if($course) {

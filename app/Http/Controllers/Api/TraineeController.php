@@ -29,9 +29,11 @@ class TraineeController extends Controller
 
             }else {
 
+
+
         $data= [
             'email' => $request->email,
-            'type' => "Trainee",
+            'type' => 'Trainee',
         ];
         $data['password']=bcrypt($request->national_id);
         $user =  User::create($data);

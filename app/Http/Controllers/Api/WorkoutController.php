@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Models\Workouts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class WorkoutController extends Controller
 {
+    public function index()
+    {
+        $user = Auth::guard('sanctum')->user();
+        return $user;
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

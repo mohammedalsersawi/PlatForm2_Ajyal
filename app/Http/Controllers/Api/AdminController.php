@@ -29,7 +29,7 @@ class AdminController extends Controller
     }else {
         $data= [
             'email' => $request->email,
-            'type' => "Admin",
+            'type' => 'Admin',
         ];
         $data['password']=bcrypt($request->password);
         $user =  User::create($data);

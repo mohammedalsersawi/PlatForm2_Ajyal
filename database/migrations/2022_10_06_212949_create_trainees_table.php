@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('national_id')->unique();
             $table->integer('phone')->unique();
             $table->string('address');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('link')->nullable();
             $table->integer('job_number')->nullable();
             $table->integer('total_income')->nullable();
