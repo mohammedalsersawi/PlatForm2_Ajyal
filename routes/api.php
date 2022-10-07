@@ -26,11 +26,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
     Route::post('user/login',[UserController::class,'login']);
+    Route::delete('/userSoftDeletes/{id}',[UserController::class, 'softDeletes']);  //softDeletes
+    Route::put('/user/{id}/restore',[UserController::class, 'restore']);
+    Route::delete('/userForceDelete/{id}',[UserController::class, 'forceDelete']);  // forceDelete
+
+
+
 });
 Route::prefix('register')->group(function () {
     Route::post('admin' , [AdminController::class , 'store']); //ADD
+    Route::put('admin/{id}' , [AdminController::class , 'update']); //ADD
     Route::post('coach' , [CoachController::class , 'store']); //ADD
+    Route::put('coach/{id}' , [CoachController::class , 'update']); //ADD
     Route::post('trainee' , [TraineeController::class , 'store']); //ADD
+    Route::put('trainee/{id}' , [TraineeController::class , 'update']); //ADD
+
 });
 
 Route::post('course' , [CourseController::class , 'store']); //ADD
