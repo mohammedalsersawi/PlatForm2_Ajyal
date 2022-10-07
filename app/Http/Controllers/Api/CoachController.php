@@ -3,25 +3,31 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Coach;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Coach;
+use Illuminate\Support\Facades\Validator;
 
 class CoachController extends Controller
 {
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email'=>'required|string|email|max:255|unique:users,email',
             'password'=>'required|min:6',
             'name'=>'required|string|between:2,100',
-            'national_id '=>'required',
-            'phone  '=>'required',
-            'address  '=>'required',
-            'Specialization  '=>'required',
-            'gender  '=>'required',
+            'national_id'=>'required',
+            'phone'=>'required',
+            'address'=>'required',
+            'Specialization'=>'required',
+            'gender'=>'required',
         ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+
+        }else{
         $data= [
             'email' => $request->email,
             'type' => "Coach",
@@ -52,4 +58,5 @@ class CoachController extends Controller
             'message' => 'failed',
         ], 404);
     }
+}
 }

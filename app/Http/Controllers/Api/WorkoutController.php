@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Workouts;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class WorkoutController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id  '=>'required',
-            'course_id  '=>'required',
+        $validator = Validator::make($request->all(), [
+            'user_id'=>'required',
+            'course_id'=>'required',
         ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+
+        }else {
 
         $data = $request->all();
         $workouts =  Workouts::create($data);
@@ -30,5 +35,5 @@ class WorkoutController extends Controller
     }
 
     }
-
+}
 

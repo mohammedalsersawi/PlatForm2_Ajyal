@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name'=>'required',
-            'coach_id '=>'required',
+            'coach_id'=>'required',
             'time'=>'required',
-            'classification '=>'required',
-            'start_date  '=>'required',
+            'classification'=>'required',
+            'start_date'=>'required',
         ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+
+        }else {
 
         $data = $request->all();
         $course =  Course::create($data);
@@ -34,3 +39,4 @@ class CourseController extends Controller
 
     }
 
+}
