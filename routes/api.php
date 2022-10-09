@@ -21,28 +21,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
     Route::post('user/login',[UserController::class,'login']);
     Route::delete('/userSoftDeletes/{id}',[UserController::class, 'softDeletes']);  //softDeletes
     Route::put('/user/{id}/restore',[UserController::class, 'restore']);
     Route::delete('/userForceDelete/{id}',[UserController::class, 'forceDelete']);  // forceDelete
-
-
-
 });
-Route::prefix('register')->group(function () {
+
+
+Route::prefix('register')->middleware('auth:sanctum')->group(function () {
+    Route::get('user/logout', [UserController::class, 'logout']);
     Route::post('admin' , [AdminController::class , 'store']); //ADD
-    Route::put('admin/{id}' , [AdminController::class , 'update']); //ADD
+    Route::put('update/admin/{id}' , [AdminController::class , 'update']); //ADD
     Route::post('coach' , [CoachController::class , 'store']); //ADD
-    Route::put('coach/{id}' , [CoachController::class , 'update']); //ADD
+    Route::put('update/coach/{id}' , [CoachController::class , 'update']); //ADD
     Route::post('trainee' , [TraineeController::class , 'store']); //ADD
-    Route::put('trainee/{id}' , [TraineeController::class , 'update']); //ADD
-
+    Route::put('update/trainee/{id}' , [TraineeController::class , 'update']); //ADD
 });
+Route::apiResource('course', CourseController::class);
+Route::apiResource('workout', WorkoutController::class);
 
-Route::post('course' , [CourseController::class , 'store']); //ADD
-Route::post('workouts' , [WorkoutController::class , 'store']); //ADD
-Route::get('workouts' , [WorkoutController::class , 'index']); //ADD
+// Route::post('course' , [CourseController::class , 'store']); //ADD
+// Route::post('workouts' , [WorkoutController::class , 'store']); //ADD
+// Route::get('workouts' , [WorkoutController::class , 'index']); //ADD

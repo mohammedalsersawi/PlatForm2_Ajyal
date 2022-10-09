@@ -10,4 +10,11 @@ class Trainee extends Model
     use HasFactory;
     protected $guarded = [];
 
+
+    public function trainees()
+    {
+        return $this->hasMany(Workouts::class);
+    }
+
+
 }

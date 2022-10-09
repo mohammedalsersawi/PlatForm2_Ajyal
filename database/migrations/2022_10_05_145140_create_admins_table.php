@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('national_id')->unique();
             $table->integer('phone')->unique();
             $table->string('address');
-            $table->string('image')->nullable();
+            $table->string('image')->nullable()->default('https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg');
             $table->rememberToken();
             $table->timestamps();
         });

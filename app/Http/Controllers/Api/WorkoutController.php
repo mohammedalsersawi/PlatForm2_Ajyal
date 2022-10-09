@@ -12,13 +12,17 @@ class WorkoutController extends Controller
 {
     public function index()
     {
-        $user = Auth::guard('sanctum')->user();
-        return $user;
+        $workout = Workouts::with(['trainees'])
+        ->where(['course_id' => 2])
+        ->get();
+        return $workout;
     }
+
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id'=>'required',
+            'trainee_id'=>'required',
             'course_id'=>'required',
         ]);
         if($validator->fails()){
@@ -39,7 +43,46 @@ class WorkoutController extends Controller
             'message' => 'failed',
         ], 404);
     }
+    }
 
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'trainee_id'=>'required',
+            'course_id'=>'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        } else {
+            $workout = Workouts::where('id', $id)->first();
+            if ($workout) {
+                $workout->update($request->all());
+                return response()->json([
+                    'message' => ' successfully update',
+                    'user' => $workout,
+                    'status' => 201
+                ]);
+            } else {
+                return response()->json([
+                    'massage' => 'user Faild',
+                ]);
+            }
+        }
+    }
+
+    public function destroy($id)
+    {
+       $workout = Workouts::destroy($id);
+        if($workout){
+            return response()->json([
+                'message' => 'course deleted successfully',
+                'status' => 201
+            ]);
+        }else {
+            return response()->json([
+                'massage' => 'user Faild',
+            ]);
+        }
     }
 }
 

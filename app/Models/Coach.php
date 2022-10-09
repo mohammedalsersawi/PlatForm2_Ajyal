@@ -10,4 +10,10 @@ class Coach extends Model
     use HasFactory;
     protected $guarded = [];
 
+
+    public function coaches()
+    {
+        return $this->hasMany(Workouts::class);
+    }
+
 }

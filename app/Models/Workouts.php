@@ -10,4 +10,13 @@ class Workouts extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function trainees()
+    {
+        return $this->belongsTo(Trainee::class, 'trainee_id');
+    }
+
+    public function coaches()
+    {
+        return $this->belongsTo(Trainee::class, 'coach_id');
+    }
 }
