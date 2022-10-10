@@ -8,13 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Trainee extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+
+    protected $hidden = [
+        'user_id',
+        'address',
+        'image',
+        'link',
+        'total_income',
+        'job_number',
+        'gender',
+        'level',
+        'status',
+        'created_at',
+        'updated_at',
+    ];
 
 
-    public function trainees()
-    {
-        return $this->hasMany(Workouts::class);
-    }
+
 
 
 }

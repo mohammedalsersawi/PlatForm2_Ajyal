@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\AttendanceTraineeController;
 use App\Http\Controllers\Api\CoachController;
+use App\Http\Controllers\Api\CourseAttendanceController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\TraineeController;
 use App\Http\Controllers\Api\UserController;
@@ -32,7 +34,7 @@ Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
 });
 
 
-Route::prefix('register')->middleware('auth:sanctum')->group(function () {
+Route::prefix('register')->group(function () {
     Route::get('user/logout', [UserController::class, 'logout']);
     Route::post('admin' , [AdminController::class , 'store']); //ADD
     Route::put('update/admin/{id}' , [AdminController::class , 'update']); //ADD
@@ -43,6 +45,8 @@ Route::prefix('register')->middleware('auth:sanctum')->group(function () {
 });
 Route::apiResource('course', CourseController::class);
 Route::apiResource('workout', WorkoutController::class);
+Route::apiResource('CourseAttendance', CourseAttendanceController::class);
+Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
 
 // Route::post('course' , [CourseController::class , 'store']); //ADD
 // Route::post('workouts' , [WorkoutController::class , 'store']); //ADD

@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('attendance_trainees', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('time');
-            $table->foreignId('coach_id')->constrained('coaches')->cascadeOnDelete();
-            $table->date('start_date');
-            $table->enum('classification', ['مدني', 'فري لانسر' , 'تقني']);
+            $table->foreignId('course_attendance_id')->constrained('course_attendances')->cascadeOnDelete();
+            $table->foreignId('trainee_id')->constrained('trainees')->cascadeOnDelete();
+            $table->boolean('attendance');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('attendance_trainees');
     }
 };

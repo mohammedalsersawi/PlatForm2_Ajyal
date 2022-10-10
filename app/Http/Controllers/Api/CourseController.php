@@ -80,4 +80,10 @@ class CourseController extends Controller
             ]);
         }
     }
+    public function show($id)
+    {
+       $course = Course::with(['trainees'])->findOrFail($id);
+       return $course;
+
+    }
 }

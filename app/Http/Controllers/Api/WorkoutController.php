@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Workouts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,10 +13,13 @@ class WorkoutController extends Controller
 {
     public function index()
     {
-        $workout = Workouts::with(['trainees'])
-        ->where(['course_id' => 2])
-        ->get();
-        return $workout;
+        $workouts = Workouts::withCount(['trainees'])->paginate();
+       return $workouts;
+    }
+
+    public function show($id)
+    {
+        $workout = Workouts::where('course_id' , $id)->first();
     }
 
 
