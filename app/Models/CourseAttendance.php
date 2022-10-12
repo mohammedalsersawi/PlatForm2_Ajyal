@@ -12,9 +12,9 @@ class CourseAttendance extends Model
 
 
 
-    public function course_attendances()
+    public function trainees()
     {
-        return $this->belongsToMany(Trainee::class, 'attendance_trainees' );
+        return $this->belongsToMany(Trainee::class, 'attendance_trainees'  ,'course_attendance_id');
     }
 
 

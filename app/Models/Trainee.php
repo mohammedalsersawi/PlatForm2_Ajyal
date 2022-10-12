@@ -23,7 +23,10 @@ class Trainee extends Model
         'updated_at',
     ];
 
-
+    public function course_attendances()
+    {
+        return $this->hasMany(CourseAttendance::class );
+    }
 
 
 

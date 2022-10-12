@@ -59,9 +59,27 @@ class CourseAttendanceController extends Controller
      */
     public function show($id)
     {
-        $course = CourseAttendance::with(['course_attendances'])->findOrFail($id);
+        $course=CourseAttendance::where('id',$id)->first();
+
+        // $courseTrainers = $course->Trainees()->where('attendance',1)->get();
+        $courseTrainers = $course->trainees()->get();
+
+        $course['trainers']=$courseTrainers;
+        //   $attendance = $course->Trainees()->attendance()->first();
+
+
         return $course;
 
+        // $course = CourseAttendance::with(['Trainees'])->where('attendance',1)->findOrFail($id)->get();
+        // return response()->json([
+        //     'message' => 'User successfully registered',
+        //     'user' => $course,
+        //     'trainees' => $courseTrainers
+        // ]);
+        // return response()->json([
+        //     'data' => $course,
+        //     'status'=>200
+        // ]);
 
 
     }
