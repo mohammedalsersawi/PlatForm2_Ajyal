@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class CourseAttendance extends Model
 {
     use HasFactory;
-
     protected $guarded = [];
 
-    public function admins()
+
+
+    public function trainees()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Trainee::class, 'attendance_trainees'  ,'course_attendance_id');
     }
+
+
+
 }

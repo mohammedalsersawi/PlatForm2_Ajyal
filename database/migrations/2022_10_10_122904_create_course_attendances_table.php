@@ -13,21 +13,25 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('workouts', function (Blueprint $table) {
+        Schema::create('course_attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete();
+            $table->enum('day', ['السبت', 'الأحد' , 'الاثنين' , 'الثلاثاء' , 'الأربعاء' , 'الخميس' , 'الجمعة']);
+            $table->date('date');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
+     *الجمعة
+
+
+
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('workouts');
+        Schema::dropIfExists('course_attendances');
     }
 };

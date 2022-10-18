@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    public function trainees()
+    {
+        return $this->belongsToMany(Trainee::class, 'workouts' );
+    }
+
+
+
+    public function coaches()
+    {
+        return $this->belongsTo(Coach::class, 'coach_id');
+    }
 }

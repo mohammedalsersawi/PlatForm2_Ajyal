@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Coach extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+
+    public function coaches()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
