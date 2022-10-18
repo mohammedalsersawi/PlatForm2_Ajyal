@@ -12,9 +12,8 @@ class Course extends Model
 
     public function trainees()
     {
-        return $this->belongsToMany(Trainee::class, 'workouts' );
+        return $this->belongsToMany(Trainee::class, 'courses_trainees' );
     }
-
 
 
     public function coaches()

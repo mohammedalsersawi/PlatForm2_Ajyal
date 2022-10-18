@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\LatestnewController;
 use App\Http\Controllers\Api\LatestupdateController;
 use App\Http\Controllers\Api\CourseAttendanceController;
 use App\Http\Controllers\Api\AttendanceTraineeController;
+use App\Http\Controllers\Api\CoursesTraineeController;
 use App\Http\Controllers\Api\FollowFreelanceController;
 
 /*
@@ -54,7 +55,7 @@ Route::prefix('register')->group(function () {
 
 });
 Route::apiResource('course', CourseController::class);
-Route::apiResource('workout', WorkoutController::class);
+Route::apiResource('workout', CoursesTraineeController::class);
 Route::apiResource('CourseAttendance', CourseAttendanceController::class);
 Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
 Route::apiResource('latestnew', LatestnewController::class);
@@ -64,6 +65,3 @@ Route::apiResource('followfreelance', FollowFreelanceController::class);
 
 
 
-// Route::post('course' , [CourseController::class , 'store']); //ADD
-// Route::post('workouts' , [WorkoutController::class , 'store']); //ADD
-// Route::get('workouts' , [WorkoutController::class , 'index']); //ADD

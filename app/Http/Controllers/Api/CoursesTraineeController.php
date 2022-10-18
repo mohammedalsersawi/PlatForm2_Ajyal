@@ -2,26 +2,41 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Workouts;
 use Illuminate\Http\Request;
+use App\Models\CoursesTrainee;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class WorkoutController extends Controller
+class CoursesTraineeController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $workouts = Workouts::withCount(['trainees'])->paginate();
-       return $workouts;
+        //
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
-        $workout = Workouts::where('course_id' , $id)->first();
+        //
     }
-
 
     public function store(Request $request)
     {
@@ -35,7 +50,7 @@ class WorkoutController extends Controller
         }else {
 
         $data = $request->all();
-        $workouts =  Workouts::create($data);
+        $workouts =  CoursesTrainee::create($data);
         if($workouts) {
             return response()->json([
                 'message' => 'User successfully registered',
@@ -58,7 +73,7 @@ class WorkoutController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         } else {
-            $workout = Workouts::where('id', $id)->first();
+            $workout = CoursesTrainee::where('id', $id)->first();
             if ($workout) {
                 $workout->update($request->all());
                 return response()->json([
@@ -76,7 +91,7 @@ class WorkoutController extends Controller
 
     public function destroy($id)
     {
-       $workout = Workouts::destroy($id);
+       $workout = CoursesTrainee::destroy($id);
         if($workout){
             return response()->json([
                 'message' => 'course deleted successfully',

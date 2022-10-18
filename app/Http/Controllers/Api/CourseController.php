@@ -5,11 +5,42 @@ namespace App\Http\Controllers\Api;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Coach;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
 {
+
+    public function index()
+    {
+        $user = Auth::guard('sanctum')->user();
+        $coach = Coach::where('user_id', $user->id)->first();
+        $coach_id = $coach->user_id;
+        if ($user->type == 'Coach') {
+            $course = Course::where('coach_id' , $coach_id)->get();
+            return response()->json([
+                'message' => 'User successfully registered',
+                'Course' => $course,
+                'status' => 201
+            ]);
+        } elseif ($user->type == 'Admin') {
+            $course = Course::all();
+            return response()->json([
+                'message' => 'User successfully registered',
+                'Course' => $course,
+                'status' => 201
+            ]);
+        }
+    }
+
+    public function show($id)
+    {
+        $course = Course::with(['trainees'])->findOrFail($id);
+        return $course;
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -23,7 +54,13 @@ class CourseController extends Controller
             return response()->json($validator->errors(), 422);
         } else {
             $data = $request->all();
-            $course =  Course::create($data);
+            $course =  Course::create([
+            'name' => $request->name,
+            'coach_id' => $request->coach_id,
+            'time' => $request->time,
+            'classification' => $request->classification,
+            'start_date' => $request->start_date,
+            ]);
             if ($course) {
                 return response()->json([
                     'message' => 'User successfully registered',
@@ -68,22 +105,16 @@ class CourseController extends Controller
 
     public function destroy($id)
     {
-       $course = Course::destroy($id);
-        if($course){
+        $course = Course::destroy($id);
+        if ($course) {
             return response()->json([
                 'message' => 'course deleted successfully',
                 'status' => 201
             ]);
-        }else {
+        } else {
             return response()->json([
                 'massage' => 'user Faild',
             ]);
         }
-    }
-    public function show($id)
-    {
-       $course = Course::with(['trainees'])->findOrFail($id);
-       return $course;
-
     }
 }

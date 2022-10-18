@@ -15,7 +15,7 @@ class CoachController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|min:6',
+            // 'password' => 'required|min:6',
             'name' => 'required|string|between:2,100',
             'national_id' => 'required|unique:coaches,national_id',
             'phone' => 'required|unique:coaches,phone',
@@ -31,7 +31,7 @@ class CoachController extends Controller
                 'email' => $request->email,
                 'type' => "Coach",
             ];
-            $data['password'] = bcrypt($request->password);
+            $data['password'] = bcrypt($request->national_id);
             $user =  User::create($data);
             $user_id =  User::latest()->first()->id;
 
