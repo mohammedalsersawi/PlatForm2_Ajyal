@@ -107,17 +107,17 @@ class UserController extends Controller
     //     return response()->json(['message' => 'Unauthenticated'], 200);
     // }
 
-    // public function logout($token = null)
-    // {
-    //     $user = Auth::guard('sanctum')->user();
-    //     if ($token === null) {
-    //         $user->tokens()->delete();
-    //         return response()->json(['message' => 'User successfully signed out', 'status' => 200]);
-    //     } else {
-    //         $user->tokens()->where('id', $token)->delete();
-    //         return response()->json(['message' => 'User successfully signed out vvv', 'status' => 200]);
-    //     }
-    // }
+    public function logout($token = null)
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($token === null) {
+            $user->tokens()->delete();
+            return response()->json(['message' => 'User successfully signed out', 'status' => 200]);
+        } else {
+            $user->tokens()->where('id', $token)->delete();
+            return response()->json(['message' => 'User successfully signed out vvv', 'status' => 200]);
+        }
+    }
 
 
     public function profile()
