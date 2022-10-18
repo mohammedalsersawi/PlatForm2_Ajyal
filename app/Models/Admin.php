@@ -11,4 +11,8 @@ class Admin extends Model
 
     protected $guarded = [];
 
+    public function admins()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

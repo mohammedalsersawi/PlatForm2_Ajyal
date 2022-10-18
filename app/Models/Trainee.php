@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Trainee extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     protected $hidden = [
         'user_id',
@@ -28,6 +29,9 @@ class Trainee extends Model
         return $this->hasMany(CourseAttendance::class );
     }
 
-
+    public function trainee()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

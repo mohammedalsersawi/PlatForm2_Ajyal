@@ -1,16 +1,20 @@
 <?php
 
-use App\Http\Controllers\Api\AdminController;
-use App\Http\Controllers\Api\AttendanceTraineeController;
-use App\Http\Controllers\Api\CoachController;
-use App\Http\Controllers\Api\CourseAttendanceController;
-use App\Http\Controllers\Api\CourseController;
-use App\Http\Controllers\Api\TraineeController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\WorkoutController;
 use App\Models\Coach;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\CoachController;
+use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\TraineeController;
+use App\Http\Controllers\Api\WorkoutController;
+use App\Http\Controllers\Api\LatestnewController;
+use App\Http\Controllers\Api\LatestupdateController;
+use App\Http\Controllers\Api\CourseAttendanceController;
+use App\Http\Controllers\Api\AttendanceTraineeController;
+use App\Http\Controllers\Api\FollowFreelanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,20 +37,32 @@ Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
     Route::delete('/userForceDelete/{id}',[UserController::class, 'forceDelete']);  // forceDelete
 });
 
+Route::prefix('profile')->group(function () {
+    Route::post('/profile', [UserController::class, 'profile']);
+    Route::post('/changeprofile', [UserController::class, 'changeprofile']);
+    Route::put('/changepassword', [UserController::class, 'changepassword']);
+    Route::get('user/logout', [UserController::class, 'logout']);
+});
 
 Route::prefix('register')->group(function () {
-    Route::get('user/logout', [UserController::class, 'logout']);
     Route::post('admin' , [AdminController::class , 'store']); //ADD
     Route::put('update/admin/{id}' , [AdminController::class , 'update']); //ADD
     Route::post('coach' , [CoachController::class , 'store']); //ADD
     Route::put('update/coach/{id}' , [CoachController::class , 'update']); //ADD
     Route::post('trainee' , [TraineeController::class , 'store']); //ADD
     Route::put('update/trainee/{id}' , [TraineeController::class , 'update']); //ADD
+
 });
 Route::apiResource('course', CourseController::class);
 Route::apiResource('workout', WorkoutController::class);
 Route::apiResource('CourseAttendance', CourseAttendanceController::class);
 Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
+Route::apiResource('latestnew', LatestnewController::class);
+Route::apiResource('latestupdate', LatestupdateController::class);
+Route::apiResource('followfreelance', FollowFreelanceController::class);
+
+
+
 
 // Route::post('course' , [CourseController::class , 'store']); //ADD
 // Route::post('workouts' , [WorkoutController::class , 'store']); //ADD

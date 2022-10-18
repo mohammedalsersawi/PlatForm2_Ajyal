@@ -62,7 +62,7 @@ public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required',
-            'name' => 'required|string|between:2,100',
+            'name' => 'required',
             'national_id' => 'required',
             'phone' => 'required',
             'address' => 'required',
@@ -77,6 +77,7 @@ public function update(Request $request, $id)
                 'email' => $request->email,
                 'password' => bcrypt($request->national_id),
             ]);
+
             $trainee = Trainee::where('user_id', $id)->first();
             $trainee->update([
                 'name' => $request->name,
@@ -85,6 +86,7 @@ public function update(Request $request, $id)
                 'address' => $request->address,
                 'gender' => $request->gender,
             ]);
+
             if ($trainee) {
                 return response()->json([
                     'message' => 'User successfully registered',

@@ -61,8 +61,8 @@ class CourseAttendanceController extends Controller
     {
         $course=CourseAttendance::where('id',$id)->first();
 
-        // $courseTrainers = $course->Trainees()->where('attendance',1)->get();
-        $courseTrainers = $course->trainees()->get();
+        $courseTrainers = $course->trainees()->where('attendance',1)->get();
+        // $courseTrainers = $course->trainees()->get();
 
         $course['trainers']=$courseTrainers;
         //   $attendance = $course->Trainees()->attendance()->first();

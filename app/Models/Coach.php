@@ -13,7 +13,7 @@ class Coach extends Model
 
     public function coaches()
     {
-        return $this->hasMany(Workouts::class);
+        return $this->belongsTo(User::class);
     }
 
 }
