@@ -45,7 +45,7 @@ class CourseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'coach_id' => 'required',
+            'courses_coach_id' => 'required',
             'time' => 'required',
             'classification' => 'required',
             'start_date' => 'required',
@@ -56,7 +56,7 @@ class CourseController extends Controller
             $data = $request->all();
             $course =  Course::create([
             'name' => $request->name,
-            'coach_id' => $request->coach_id,
+            'courses_coach_id' => $request->courses_coach_id,
             'time' => $request->time,
             'classification' => $request->classification,
             'start_date' => $request->start_date,
