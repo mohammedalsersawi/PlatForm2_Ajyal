@@ -17,9 +17,9 @@ class CourseController extends Controller
     {
         $user = Auth::guard('sanctum')->user();
         $coach = Coach::where('user_id', $user->id)->first();
-        $coach_id = $coach->user_id;
+        $courses_coach_id = $coach->user_id;
         if ($user->type == 'Coach') {
-            $course = Course::where('coach_id' , $coach_id)->get();
+            $course = Course::where('courses_coach_id' , $courses_coach_id)->get();
             return response()->json([
                 'message' => 'User successfully registered',
                 'Course' => $course,
@@ -78,7 +78,7 @@ class CourseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'coach_id' => 'required|integer',
+            'courses_coach_id' => 'required|integer',
             'time' => 'required',
             'classification' => 'required',
             'start_date' => 'required',
