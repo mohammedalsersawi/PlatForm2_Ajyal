@@ -18,6 +18,6 @@ class Course extends Model
 
     public function coaches()
     {
-        return $this->belongsTo(Coach::class, 'coach_id');
+        return $this->belongsTo(Coach::class, 'courses_coach_id');
     }
 }
