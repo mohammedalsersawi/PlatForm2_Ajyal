@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('time');
-            $table->foreignId('courses_coach_id')->references('user_id')->on('coaches')->cascadeOnDelete()->unique();
+            $table->foreignId('courses_coach_id')->references('user_id')->on('coaches')->cascadeOnDelete();
             $table->date('start_date');
             $table->enum('classification', ['مدني', 'فري لانسر' , 'تقني']);
             $table->timestamps();
