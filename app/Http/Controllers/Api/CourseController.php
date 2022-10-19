@@ -50,6 +50,7 @@ class CourseController extends Controller
             'classification' => 'required',
             'start_date' => 'required',
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         } else {
