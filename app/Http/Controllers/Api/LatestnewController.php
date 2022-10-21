@@ -53,7 +53,7 @@ class LatestnewController extends Controller
                 'title' => $request->title,
                 'details' => $request->details,
                 'created_date' => $request->created_date,
-                'image' => $newfile,
+                'image' => "/uploads/latestnew/$newfile",
 
             ]);
             if ($latestnew) {
@@ -111,7 +111,7 @@ class LatestnewController extends Controller
             $latestnew = Latestnew::where('id', $id)->first();
             if ($latestnew) {
                 if ($image = $request->file('image')) {
-                    File::delete(public_path('uploads/latestnew/' . $latestnew->image));
+                    File::delete(public_path($latestnew->image));
                     $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
                     $Path = 'uploads/latestnew';
                     $image->move($Path, $newfile);
@@ -121,7 +121,7 @@ class LatestnewController extends Controller
                     'title' => $request->title,
                     'details' => $request->details,
                     'created_date' => $request->created_date,
-                    'image' => $newfile,
+                    'image' => "/uploads/latestnew/$newfile",
                 ]);
 
                 return response()->json([

@@ -17,10 +17,7 @@ class CourseAttendance extends Model
         return $this->belongsToMany(Trainee::class, 'attendance_trainees' );
     }
 
-    public function cococ()
-    {
-        return $this->hasMany(AttendanceTrainee::class);
-    }
+
 
 
 

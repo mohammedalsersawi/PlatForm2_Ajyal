@@ -158,7 +158,7 @@ class UserController extends Controller
             if ($user->type == 'Admin') {
                 $admin = Admin::where('user_id', $user->id)->first();
                 if ($image = $request->file('image')) {
-                    File::delete(public_path('uploads/imageAdmin/' . $admin->image));
+                    File::delete(public_path($admin->image));
                     $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
                     $Path = 'uploads/imageAdmin';
                     $image->move($Path, $newfile);
@@ -166,27 +166,27 @@ class UserController extends Controller
                 $admin->update([
                     'phone' => $request->phone,
                     'address' => $request->address,
-                    'image' => $newfile,
+                    'image' => "/uploads/imageAdmin/$newfile",
                 ]);
                 return $admin;
             } elseif ($user->type == 'Coach') {
                 $coach = Coach::where('user_id', $user->id)->first();
                 if ($image = $request->file('image')) {
-                    File::delete(public_path('uploads/imageCoach/' . $coach->image));
+                    File::delete(public_path($coach->image));
                     $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
-                    $Path = 'uploads/imageAdmin';
+                    $Path = 'uploads/imageCoach';
                     $image->move($Path, $newfile);
                 }
                 $coach->update([
                     'phone' => $request->phone,
                     'address' => $request->address,
-                    'image' => $newfile,
+                    'image' => "/uploads/imageCoach/$newfile",
                 ]);
                 return $coach;
             } elseif ($user->type == 'Trainee') {
                 $trainee = Trainee::where('user_id', $user->id)->first();
                 if ($image = $request->file('image')) {
-                    File::delete(public_path('uploads/imageCoach/' . $trainee->image));
+                    File::delete(public_path($trainee->image));
                     $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
                     $Path = 'uploads/imageTrainee';
                     $image->move($Path, $newfile);
@@ -194,7 +194,7 @@ class UserController extends Controller
                 $trainee->update([
                     'phone' => $request->phone,
                     'address' => $request->address,
-                    'image' => $newfile,
+                    'image' => "/uploads/imageTrainee/$newfile",
                 ]);
                 return $trainee;
             }

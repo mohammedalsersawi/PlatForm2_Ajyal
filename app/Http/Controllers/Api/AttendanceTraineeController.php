@@ -62,7 +62,7 @@ class AttendanceTraineeController extends Controller
             return response()->json($validator->errors(), 422);
         } else {
             $CourseAttendance =  CourseAttendance::create($request->all());
-            $trainees_attendance =json_decode($request->trainees_attendance);
+            $trainees_attendance=json_decode($request->trainees_attendance);
             foreach ($trainees_attendance as $trainees_id=>$Attendance){
                 AttendanceTrainee::create([
                    'course_attendance_id'=>$CourseAttendance->id,

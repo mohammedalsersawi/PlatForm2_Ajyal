@@ -19,22 +19,6 @@ class CourseAttendanceController extends Controller
     {
         //
     }
-      public function showday(Request $request , $id)
-    {
-        // $day = CourseAttendance::where('course_id', $id)->get();
-        // return $day->trainees;
-
-        $course=CourseAttendance::where('course_id',$id)->get();
-
-        $courseTrainers = $course->trainees()->get();
-        return $courseTrainers;
-
-        $courseTrainers = $course->trainees()->get();
-         $course['trainers']=$courseTrainers;
-        //    $attendance = $course->Trainees()->attendance()->first();
-
-
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -75,19 +59,13 @@ class CourseAttendanceController extends Controller
      */
     public function show($id)
     {
+        $course=CourseAttendance::where('id',$id)->first();
 
-
-
-            $course=CourseAttendance::where('course_id',$id)->get();
-            $courseTrainers = $course->trainees()->where(['attendance' =>1 , 'trainee_id' => 2])->count();
-
-
-
-        return $courseTrainers;
-        $course['trainers']=$courseTrainers;
-
-        //   $attendance = $course->Trainees()->attendance()->first();
+        $courseTrainers = $course->trainees()->where('attendance',1)->get();
         // $courseTrainers = $course->trainees()->get();
+
+        $course['trainers']=$courseTrainers;
+        //   $attendance = $course->Trainees()->attendance()->first();
 
 
         return $course;

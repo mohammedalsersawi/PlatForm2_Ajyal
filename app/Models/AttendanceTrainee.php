@@ -11,4 +11,11 @@ class AttendanceTrainee extends Model
     protected $guarded = [];
 
 
+
+
+    public function course_attendances()
+    {
+        return $this->belongsTo(CourseAttendance::class,'course_attendance_id');
+    }
+
 }

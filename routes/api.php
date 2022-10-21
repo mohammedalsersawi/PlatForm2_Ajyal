@@ -59,7 +59,8 @@ Route::prefix('admin')->group(function () {
     Route::get('trainee', [TraineeController::class, 'index']); //ADD
     Route::get('show/Freelance/job/{id}', [TraineeController::class, 'showFreelance']); //ADD
     Route::get('show/course/{id}', [TraineeController::class, 'showcourse']); //ADD
-    Route::get('showday/{id}', [CourseAttendanceController::class, 'showday']); //ADD
+    Route::get('viewdetails/{course_id}/{trainee_id}', [CourseAttendanceController::class, 'viewdetails']); //ADD
+
 
 
     Route::delete('/userSoftDeletes/{id}', [UserController::class, 'softDeletes']);  //softDeletes
