@@ -39,7 +39,6 @@ class LatestnewController extends Controller
             'image' => 'required',
             'title' => 'required',
             'details' => 'required',
-            'created_date' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -52,7 +51,6 @@ class LatestnewController extends Controller
             $latestnew = Latestnew::create([
                 'title' => $request->title,
                 'details' => $request->details,
-                'created_date' => $request->created_date,
                 'image' => "/uploads/latestnew/$newfile",
 
             ]);
@@ -103,7 +101,6 @@ class LatestnewController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'details' => 'required',
-            'created_date' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -120,7 +117,6 @@ class LatestnewController extends Controller
                 $latestnew->update([
                     'title' => $request->title,
                     'details' => $request->details,
-                    'created_date' => $request->created_date,
                     'image' => "/uploads/latestnew/$newfile",
                 ]);
 
