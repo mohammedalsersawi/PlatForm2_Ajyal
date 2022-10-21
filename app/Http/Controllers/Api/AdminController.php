@@ -48,7 +48,6 @@ class AdminController extends Controller
                     'status' => 201
                 ]);
             }
-
         }
     }
 
@@ -68,25 +67,27 @@ class AdminController extends Controller
             return response()->json($validator->errors(), 422);
         } else {
 
-        $user = User::where('id', $id)->first();
-        $user->update([
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
-        $admin = Admin::where('user_id', $id)->first();
-        $admin->update([
+            $user = User::where('id', $id)->first();
+            $user->update([
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            $admin = Admin::where('user_id', $id)->first();
+            $admin->update([
                 'name' => $request->name,
                 'national_id' => $request->national_id,
                 'phone' => $request->phone,
                 'address' => $request->address,
-        ]);
-        if ($admin) {
-            return response()->json([
-                'message' => 'User successfully registered',
-                'user' => $admin,
-                'status' => 201
             ]);
+            if ($admin) {
+                return response()->json([
+                    'message' => 'User successfully registered',
+                    'user' => $admin,
+                    'status' => 201
+                ]);
+            }
         }
     }
-}
+
+
 }

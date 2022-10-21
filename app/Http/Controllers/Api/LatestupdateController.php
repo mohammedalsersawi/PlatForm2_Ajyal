@@ -17,7 +17,12 @@ class LatestupdateController extends Controller
      */
     public function index()
     {
-        return Latestupdate::all();
+       $Latestupdate =  Latestupdate::latest()->paginate(5);
+        return response()->json([
+            'message' => 'All Latestupdate',
+            'user' => $Latestupdate,
+            'status' => 201
+        ]);
     }
 
     /**
@@ -120,12 +125,14 @@ class LatestupdateController extends Controller
         if ($latestupdate) {
             $latestupdate->delete();
             return response()->json([
-                'message' => 'deleted successfully'
-            ], 200);
+                'message' => 'deleted successfully',
+                'status' => 201
+            ]);
         } else {
             return response()->json([
                 'message' => 'failed',
-            ], 404);
+                'status' => 404
+            ]);
         }
     }
 }

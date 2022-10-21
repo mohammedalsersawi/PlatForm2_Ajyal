@@ -11,15 +11,6 @@ class Trainee extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'user_id',
-        'address',
-        'image',
-        'link',
-        'total_income',
-        'job_number',
-        'gender',
-        'level',
-        'status',
         'created_at',
         'updated_at',
     ];
@@ -33,5 +24,13 @@ class Trainee extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'courses_trainees' );
+    }
+
+
+
 
 }

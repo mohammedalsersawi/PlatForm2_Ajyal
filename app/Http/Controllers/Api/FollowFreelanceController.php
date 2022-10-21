@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\FollowFreelance;
 use App\Http\Controllers\Controller;
+use App\Models\Trainee;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -59,6 +61,12 @@ class FollowFreelanceController extends Controller
                 'details' => $request->details,
                 'budget' => $request->budget,
                 'date' => $request->date,
+        ]);
+        $total_income = Trainee::where('user_id', $user->id)->first();
+        $old_income = $total_income->total_income;
+        $new_income = $old_income + $request->budget;
+        $total_income->update([
+            'total_income' => $new_income,
         ]);
         if ($followfreelance) {
             return response()->json([

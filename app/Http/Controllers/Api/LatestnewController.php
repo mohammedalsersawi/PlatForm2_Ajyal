@@ -19,7 +19,12 @@ class LatestnewController extends Controller
      */
     public function index()
     {
-        return Latestnew::all();
+        $Latestnew =  Latestnew::latest()->paginate(5);
+        return response()->json([
+            'message' => 'All Latestnew',
+            'user' => $Latestnew,
+            'status' => 201
+        ]);
     }
 
     /**
@@ -96,9 +101,9 @@ class LatestnewController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string',
-            'details' => 'required|string',
-            'created_date' => 'required|date',
+            'title' => 'required',
+            'details' => 'required',
+            'created_date' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -147,11 +152,13 @@ class LatestnewController extends Controller
             $latestnew->delete();
             File::delete(public_path('uploads/latestnew/' . $latestnew->image));
             return response()->json([
-                'message' => 'deleted successfully'
+                'message' => 'deleted successfully',
+                'status' => 200
             ], 200);
         } else {
             return response()->json([
                 'message' => 'failed',
+                'status' => 404
             ], 404);
         }
     }

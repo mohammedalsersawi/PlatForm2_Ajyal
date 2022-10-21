@@ -15,10 +15,12 @@ class CourseController extends Controller
 
     public function index()
     {
+
+
         $user = Auth::guard('sanctum')->user();
         $coach = Coach::where('user_id', $user->id)->first();
-        $courses_coach_id = $coach->user_id;
         if ($user->type == 'Coach') {
+            $courses_coach_id = $coach->user_id;
             $course = Course::where('courses_coach_id' , $courses_coach_id)->get();
             return response()->json([
                 'message' => 'User successfully registered',
@@ -38,7 +40,7 @@ class CourseController extends Controller
     public function show($id)
     {
         $course = Course::with(['trainees'])->findOrFail($id);
-        return $course;
+       return $course;
     }
 
     public function store(Request $request)
@@ -56,11 +58,11 @@ class CourseController extends Controller
         } else {
             $data = $request->all();
             $course =  Course::create([
-            'name' => $request->name,
-            'courses_coach_id' => $request->courses_coach_id,
-            'time' => $request->time,
-            'classification' => $request->classification,
-            'start_date' => $request->start_date,
+                'name' => $request->name,
+                'courses_coach_id' => $request->courses_coach_id,
+                'time' => $request->time,
+                'classification' => $request->classification,
+                'start_date' => $request->start_date,
             ]);
             if ($course) {
                 return response()->json([

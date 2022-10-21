@@ -14,7 +14,12 @@ class CourseAttendance extends Model
 
     public function trainees()
     {
-        return $this->belongsToMany(Trainee::class, 'attendance_trainees'  ,'course_attendance_id');
+        return $this->belongsToMany(Trainee::class, 'attendance_trainees' );
+    }
+
+    public function cococ()
+    {
+        return $this->hasMany(AttendanceTrainee::class);
     }
 
 

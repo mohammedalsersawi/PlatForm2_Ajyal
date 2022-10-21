@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\CourseAttendanceController;
 use App\Http\Controllers\Api\AttendanceTraineeController;
 use App\Http\Controllers\Api\CoursesTraineeController;
 use App\Http\Controllers\Api\FollowFreelanceController;
+use App\Http\Controllers\Api\PlatformdataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,37 +32,71 @@ use App\Http\Controllers\Api\FollowFreelanceController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
-    Route::post('user/login',[UserController::class,'login']);
-    Route::delete('/userSoftDeletes/{id}',[UserController::class, 'softDeletes']);  //softDeletes
-    Route::put('/user/{id}/restore',[UserController::class, 'restore']);
-    Route::delete('/userForceDelete/{id}',[UserController::class, 'forceDelete']);  // forceDelete
+Route::middleware(['guest:sanctum'])->prefix('login')->group(function () {
+    Route::post('user/login', [UserController::class, 'login']);
 });
 
-Route::prefix('profile')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
     Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/changeprofile', [UserController::class, 'changeprofile']);
     Route::put('/changepassword', [UserController::class, 'changepassword']);
     Route::get('user/logout', [UserController::class, 'logout']);
 });
 
-Route::prefix('register')->group(function () {
-    Route::post('admin' , [AdminController::class , 'store']); //ADD
-    Route::put('update/admin/{id}' , [AdminController::class , 'update']); //ADD
-    Route::post('coach' , [CoachController::class , 'store']); //ADD
-    Route::put('update/coach/{id}' , [CoachController::class , 'update']); //ADD
-    Route::post('trainee' , [TraineeController::class , 'store']); //ADD
-    Route::put('update/trainee/{id}' , [TraineeController::class , 'update']); //ADD
+// Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function () {
+Route::prefix('admin')->group(function () {
+    Route::post('admin', [AdminController::class, 'store']); //ADD
+    Route::put('update/admin/{id}', [AdminController::class, 'update']); //ADD
+
+
+    Route::post('coach', [CoachController::class, 'store']); //ADD
+    Route::put('update/coach/{id}', [CoachController::class, 'update']); //ADD
+    Route::get('coach', [CoachController::class, 'index']); //ADD
+
+
+    Route::post('trainee', [TraineeController::class, 'store']); //ADD
+    Route::put('update/trainee/{id}', [TraineeController::class, 'update']); //ADD
+    Route::get('trainee', [TraineeController::class, 'index']); //ADD
+    Route::get('show/Freelance/job/{id}', [TraineeController::class, 'showFreelance']); //ADD
+    Route::get('show/course/{id}', [TraineeController::class, 'showcourse']); //ADD
+    Route::get('showday/{id}', [CourseAttendanceController::class, 'showday']); //ADD
+
+
+    Route::delete('/userSoftDeletes/{id}', [UserController::class, 'softDeletes']);  //softDeletes
+    Route::put('/user/{id}/restore', [UserController::class, 'restore']);
+    Route::delete('/userForceDelete/{id}', [UserController::class, 'forceDelete']);  // forceDelete
+
+    Route::apiResource('course', CourseController::class);
+
+
+    Route::apiResource('workout', CoursesTraineeController::class);
+    Route::apiResource('CourseAttendance', CourseAttendanceController::class);
+    Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
+
+
+    Route::post('latestnew', [LatestnewController::class, 'store']);
+    Route::post('latestnew/{id}', [LatestnewController::class, 'update']);
+    Route::get('latestnew', [LatestnewController::class, 'index']);
+    Route::delete('latestnew/{id}', [LatestnewController::class, 'destroy']);
+
+
+
+    Route::apiResource('latestupdate', LatestupdateController::class);
+    Route::apiResource('Platformdata', PlatformdataController::class);
+    Route::get('statistics', [PlatformdataController::class, 'statistics']);
+
 
 });
-Route::apiResource('course', CourseController::class);
-Route::apiResource('workout', CoursesTraineeController::class);
-Route::apiResource('CourseAttendance', CourseAttendanceController::class);
-Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
-Route::apiResource('latestnew', LatestnewController::class);
-Route::apiResource('latestupdate', LatestupdateController::class);
-Route::apiResource('followfreelance', FollowFreelanceController::class);
+
+Route::middleware(['auth:sanctum' , 'coach'])->prefix('coach')->group(function () {
+    Route::apiResource('CourseAttendance', CourseAttendanceController::class);
+    Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
+    Route::get('course', [CourseController::class, 'show']); //ADD
 
 
+});
 
 
+// Route::middleware(['auth:sanctum'])->prefix('trainee')->group(function () {
+    Route::apiResource('followfreelance', FollowFreelanceController::class);
+// });

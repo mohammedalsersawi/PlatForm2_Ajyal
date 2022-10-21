@@ -4,13 +4,28 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\Coach;
+use App\Models\Trainee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class CoachController extends Controller
 {
+    public function index()
+    {
+        $coachs = Coach::latest()->paginate(5);
+        return response()->json([
+            'message' => 'All Trainees',
+            'user' => $coachs,
+            'status' => 201
+        ]);
+    }
 
+    public function show($id)
+    {
+        //  $course = Trainee::with(['courses'])->findOrFail($id);
+        // return $course;
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

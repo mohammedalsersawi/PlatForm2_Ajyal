@@ -50,6 +50,7 @@ class AttendanceTraineeController extends Controller
     //     }
     // }
     public function store(Request $request){
+
         $validator = Validator::make($request->all(), [
             'course_id' => 'required',
             'day' => 'required',
@@ -61,8 +62,8 @@ class AttendanceTraineeController extends Controller
             return response()->json($validator->errors(), 422);
         } else {
             $CourseAttendance =  CourseAttendance::create($request->all());
-            $arr=[1=>1,2=>0,3=>1,4=>1];
-            foreach ($arr as $trainees_id=>$Attendance){
+            $trainees_attendance =json_decode($request->trainees_attendance);
+            foreach ($trainees_attendance as $trainees_id=>$Attendance){
                 AttendanceTrainee::create([
                    'course_attendance_id'=>$CourseAttendance->id,
                    'trainee_id'=>$trainees_id,
