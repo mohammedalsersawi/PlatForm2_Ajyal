@@ -44,7 +44,7 @@ Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
     Route::get('user/logout', [UserController::class, 'logout']);
 });
 
-Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::post('admin', [AdminController::class, 'store']); //ADD
     Route::put('update/admin/{id}', [AdminController::class, 'update']); //ADD
 
@@ -59,7 +59,7 @@ Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function (
     Route::get('trainee', [TraineeController::class, 'index']); //ADD
     Route::get('show/Freelance/job/{id}', [TraineeController::class, 'showFreelance']); //ADD
     Route::get('show/course/{id}', [TraineeController::class, 'showcourse']); //ADD
-    Route::get('viewdetails/{course_id}/{trainee_id}', [CourseAttendanceController::class, 'viewdetails']); //ADD
+    Route::get('viewdetails/', [AttendanceTraineeController::class, 'viewdetails']); //ADD
 
 
 
@@ -78,6 +78,7 @@ Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function (
     Route::post('latestnew', [LatestnewController::class, 'store']);
     Route::post('latestnew/{id}', [LatestnewController::class, 'update']);
     Route::get('latestnew', [LatestnewController::class, 'index']);
+    Route::get('latestnew/{id}', [LatestnewController::class, 'show']);
     Route::delete('latestnew/{id}', [LatestnewController::class, 'destroy']);
 
 

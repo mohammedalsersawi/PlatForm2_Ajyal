@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\CourseAttendance;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AttendanceTrainee extends Model
 {
@@ -17,5 +18,11 @@ class AttendanceTrainee extends Model
     {
         return $this->belongsTo(CourseAttendance::class,'course_attendance_id');
     }
+
+    public function trainees()
+    {
+        return $this->belongsToMany(Trainee::class, 'attendance_trainees' );
+    }
+
 
 }

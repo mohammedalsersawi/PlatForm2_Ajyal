@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\CourseAttendance;
 use App\Models\Trainee;
+use Illuminate\Http\Request;
+use App\Models\CourseAttendance;
+use App\Models\AttendanceTrainee;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class CourseAttendanceController extends Controller
@@ -50,7 +51,16 @@ class CourseAttendanceController extends Controller
             ], 404);
         }
     }
-
+    public function viewdetails()
+    {
+        // $c = AttendanceTrainee::where('attendance', 1)->where('trainee_id', 1)->get();
+        //     ->with([
+        //         'course_attendances' => function ($qurey) {
+        //             $qurey->where('course_id', 2);
+        //         }
+        //     ])->count();
+        // return $c;
+    }
     /**
      * Display the specified resource.
      *
@@ -59,12 +69,19 @@ class CourseAttendanceController extends Controller
      */
     public function show($id)
     {
-        $course=CourseAttendance::where('id',$id)->first();
+        $c = AttendanceTrainee::where('attendance', 1)->where('trainee_id', 1)
+            ->with([
+                'course_attendances' => function ($qurey) {
+                    $qurey->where('course_id', 1);
+                }
+            ])->count();
+        return $c;
+        $course = CourseAttendance::where('id', $id)->first();
 
-        $courseTrainers = $course->trainees()->where('attendance',1)->get();
+        $courseTrainers = $course->trainees()->where('attendance', 1)->get();
         // $courseTrainers = $course->trainees()->get();
 
-        $course['trainers']=$courseTrainers;
+        $course['trainers'] = $courseTrainers;
         //   $attendance = $course->Trainees()->attendance()->first();
 
 
@@ -126,12 +143,12 @@ class CourseAttendanceController extends Controller
     public function destroy($id)
     {
         $courseAttendance = CourseAttendance::destroy($id);
-        if($courseAttendance){
+        if ($courseAttendance) {
             return response()->json([
                 'message' => 'course deleted successfully',
                 'status' => 201
             ]);
-        }else {
+        } else {
             return response()->json([
                 'massage' => 'user Faild',
             ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\CourseAttendance;
 use App\Models\AttendanceTrainee;
@@ -121,6 +122,28 @@ class AttendanceTraineeController extends Controller
         }
     }
 
+
+
+
+
+    public function viewdetails1()
+    {
+
+
+        // $c = AttendanceTrainee::where('attendance', 1)->where('trainee_id',1)->get();
+        // $courseTrainers = $c->with('course_attendances')->where('course_id', 1)->count();
+
+        // with([
+        //         'course_attendances' => function ($qurey) {
+        //             $qurey->where('course_id',2)->select(['course_id','id'])->count();
+        //         }
+        //     ])->get();
+        // return $courseTrainers;
+
+
+
+        }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -141,4 +164,35 @@ class AttendanceTraineeController extends Controller
             ]);
         }
     }
-}
+
+
+
+    public function viewdetails()
+    {
+        // $course = CourseAttendance::where('course_id',1 )->count();
+        // $courseTrainers = $course->trainees()->where('attendance', 1)->count();
+        // return $courseTrainers;
+
+        // return $course->where('attendance', 1)->first();
+
+        // $courseTrainers = $course->trainees()->where('attendance', 1)->get();
+        // $courseTrainers = $course->trainees()->get();
+
+        // $course['trainers'] = $courseTrainers;
+
+
+
+        //  $w=Course::where('id',1)->exists();
+        //  if ($w){
+        //             $c=AttendanceTrainee::where('attendance', 1)->where('trainee_id', 1)->with([
+        //             'course_attendances' => function ($qurey) {
+        //             $qurey->where('course_id',1);
+        //             }
+        //             ])->count();
+        //             }else{
+        //                 return 'cccc';
+        //             }
+        //             return $c;
+
+    }
+        }
