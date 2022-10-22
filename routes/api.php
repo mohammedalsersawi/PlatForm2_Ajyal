@@ -75,6 +75,7 @@ Route::prefix('admin')->group(function () {
     Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
 
 
+
     Route::post('latestnew', [LatestnewController::class, 'store']);
     Route::post('latestnew/{id}', [LatestnewController::class, 'update']);
     Route::get('latestnew', [LatestnewController::class, 'index']);
