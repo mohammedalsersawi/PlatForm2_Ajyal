@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('trainees', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users');
             $table->string('name');
             $table->integer('national_id')->unique();
             $table->integer('phone')->unique();
@@ -27,6 +26,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->enum('level', ['Featured', 'weak'])->nullable();
             $table->enum('status', ['active', 'archived'])->default('active');
+            $table->primary('user_id');
             $table->timestamps();
         });
     }
