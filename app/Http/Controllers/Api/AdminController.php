@@ -31,10 +31,10 @@ class AdminController extends Controller
             ];
             $data['password'] = bcrypt($request->password);
             $user =  User::create($data);
-            $user_id =  User::latest()->first()->id;
+            // $user_id =  User::latest()->first()->id;
 
             $data_admin = [
-                'user_id' => $user_id,
+                'user_id' => $user->id,
                 'name' => $request->name,
                 'national_id' => $request->national_id,
                 'phone' => $request->phone,
