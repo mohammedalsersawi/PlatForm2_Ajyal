@@ -40,28 +40,34 @@ class CoursesTraineeController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'trainee_id'=>'required',
-            'course_id'=>'required',
-        ]);
-        if($validator->fails()){
-            return response()->json($validator->errors(), 422);
 
-        }else {
+        $c= CoursesTrainee::create($request->all());
+        return $c;
+    //     $validator = Validator::make($request->all(), [
+    //         'trainee_id'=>'required',
+    //         'course_id'=>'required',
+    //     ]);
+    //     if($validator->fails()){
+    //         return response()->json($validator->errors(), 422);
 
-        $data = $request->all();
-        $workouts =  CoursesTrainee::create($data);
-        if($workouts) {
-            return response()->json([
-                'message' => 'User successfully registered',
-                'user' => $workouts,
-                'status'=>201
-            ]);
-        }
-        return response()->json([
-            'message' => 'failed',
-        ], 404);
-    }
+    //     }else {
+
+    //     $workouts =  CoursesTrainee::create([
+    //         'trainee_id' => $request->trainee_id,
+    //         'course_id' => $request->course_id,
+
+    //     ]);
+    //     if($workouts) {
+    //         return response()->json([
+    //             'message' => 'User successfully registered',
+    //             'user' => $workouts,
+    //             'status'=>201
+    //         ]);
+    //     }
+    //     return response()->json([
+    //         'message' => 'failed',
+    //     ], 404);
+    // }
     }
 
     public function update(Request $request, $id)
