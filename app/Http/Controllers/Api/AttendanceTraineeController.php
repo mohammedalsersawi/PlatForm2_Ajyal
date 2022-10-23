@@ -143,7 +143,8 @@ class AttendanceTraineeController extends Controller
         ");
         return response()->json([
             'message' => ' successfully',
-            'viewdetails' => [ 'Count_Attended' => $Count_Attended,'Count_Missed' => $Count_Missed,],
+            'Count_Attended' =>  $Count_Attended,
+            'Count_Missed' =>  $Count_Missed,
             'status' => 201
         ]);
 

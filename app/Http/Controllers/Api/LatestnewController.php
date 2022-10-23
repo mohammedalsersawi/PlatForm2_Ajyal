@@ -112,12 +112,14 @@ class LatestnewController extends Controller
                     $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
                     $Path = 'uploads/latestnew';
                     $image->move($Path, $newfile);
+                    $latestnew->update([
+                        'image' => "/uploads/latestnew/$newfile",
+                    ]);
                 }
 
                 $latestnew->update([
                     'title' => $request->title,
                     'details' => $request->details,
-                    'image' => "/uploads/latestnew/$newfile",
                 ]);
 
                 return response()->json([

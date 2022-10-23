@@ -162,11 +162,13 @@ class UserController extends Controller
                     $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
                     $Path = 'uploads/imageAdmin';
                     $image->move($Path, $newfile);
+                    $admin->update([
+                        'image' => "/uploads/imageAdmin/$newfile",
+                    ]);
                 }
                 $admin->update([
                     'phone' => $request->phone,
                     'address' => $request->address,
-                    'image' => "/uploads/imageAdmin/$newfile",
                 ]);
                 return $admin;
             } elseif ($user->type == 'Coach') {
@@ -176,11 +178,13 @@ class UserController extends Controller
                     $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
                     $Path = 'uploads/imageCoach';
                     $image->move($Path, $newfile);
+                    $coach->update([
+                        'image' => "/uploads/imageCoach/$newfile",
+                    ]);
                 }
                 $coach->update([
                     'phone' => $request->phone,
                     'address' => $request->address,
-                    'image' => "/uploads/imageCoach/$newfile",
                 ]);
                 return $coach;
             } elseif ($user->type == 'Trainee') {
@@ -190,11 +194,13 @@ class UserController extends Controller
                     $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
                     $Path = 'uploads/imageTrainee';
                     $image->move($Path, $newfile);
+                    $trainee->update([
+                        'image' => "/uploads/imageTrainee/$newfile",
+                    ]);
                 }
                 $trainee->update([
                     'phone' => $request->phone,
                     'address' => $request->address,
-                    'image' => "/uploads/imageTrainee/$newfile",
                 ]);
                 return $trainee;
             }
