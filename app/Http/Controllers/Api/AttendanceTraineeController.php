@@ -6,6 +6,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\CourseAttendance;
 use App\Models\AttendanceTrainee;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -126,20 +127,25 @@ class AttendanceTraineeController extends Controller
 
 
 
-    public function viewdetails1()
+    public function viewdetails(Request $request)
     {
-
-
-        // $c = AttendanceTrainee::where('attendance', 1)->where('trainee_id',1)->get();
-        // $courseTrainers = $c->with('course_attendances')->where('course_id', 1)->count();
-
-        // with([
-        //         'course_attendances' => function ($qurey) {
-        //             $qurey->where('course_id',2)->select(['course_id','id'])->count();
-        //         }
-        //     ])->get();
-        // return $courseTrainers;
-
+        $course_id = $request->course_id;
+        $trainee_id = $request->trainee_id;
+        $Count_Attended = DB::select("
+        select count(C.id)
+        from attendance_trainees A,course_attendances C
+        where A.course_attendance_id= C.id and A.attendance= 1 and trainee_id = '$trainee_id' and C.course_id = '$course_id'
+        ");
+        $Count_Missed = DB::select("
+        select count(C.id)
+        from attendance_trainees A,course_attendances C
+        where A.course_attendance_id= C.id and A.attendance= 0 and trainee_id = '$trainee_id' and C.course_id = '$course_id'
+        ");
+        return response()->json([
+            'message' => ' successfully',
+            'viewdetails' => [ 'Count_Attended' => $Count_Attended,'Count_Missed' => $Count_Missed,],
+            'status' => 201
+        ]);
 
 
         }
@@ -167,8 +173,16 @@ class AttendanceTraineeController extends Controller
 
 
 
-    public function viewdetails()
+    public function viewdetails1()
     {
+         $course = CourseAttendance::where('course_id', 1)->first();
+
+        $courseTrainers = $course->trainees()->where('attendance', 1)->get();
+        // $courseTrainers = $course->trainees()->get();
+
+        $course['trainers'] = $courseTrainers;
+        return $course;
+
         // $course = CourseAttendance::where('course_id',1 )->count();
         // $courseTrainers = $course->trainees()->where('attendance', 1)->count();
         // return $courseTrainers;

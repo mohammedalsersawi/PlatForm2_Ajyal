@@ -37,7 +37,8 @@ Route::middleware(['guest:sanctum'])->prefix('login')->group(function () {
 });
 
 
-Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
+// Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
+Route::prefix('profile')->group(function () {
     Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/changeprofile', [UserController::class, 'changeprofile']);
     Route::put('/changepassword', [UserController::class, 'changepassword']);
@@ -59,7 +60,7 @@ Route::prefix('admin')->group(function () {
     Route::get('trainee', [TraineeController::class, 'index']); //ADD
     Route::get('show/Freelance/job/{id}', [TraineeController::class, 'showFreelance']); //ADD
     Route::get('show/course/{id}', [TraineeController::class, 'showcourse']); //ADD
-    Route::get('viewdetails/', [AttendanceTraineeController::class, 'viewdetails']); //ADD
+    Route::get('viewdetails/{course_id}/{trainee_id}', [AttendanceTraineeController::class, 'viewdetails']); //ADD
 
 
 

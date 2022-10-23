@@ -69,23 +69,28 @@ class CourseAttendanceController extends Controller
      */
     public function show($id)
     {
-        $c = AttendanceTrainee::where('attendance', 1)->where('trainee_id', 1)
-            ->with([
-                'course_attendances' => function ($qurey) {
-                    $qurey->where('course_id', 1);
-                }
-            ])->count();
-        return $c;
-        $course = CourseAttendance::where('id', $id)->first();
-
-        $courseTrainers = $course->trainees()->where('attendance', 1)->get();
-        // $courseTrainers = $course->trainees()->get();
-
-        $course['trainers'] = $courseTrainers;
-        //   $attendance = $course->Trainees()->attendance()->first();
 
 
-        return $course;
+        $ca = CourseAttendance::where('course_id' , 1 )->with(['course_attendances'])->get();
+        return $ca;
+
+        // $c = AttendanceTrainee::where('attendance', 1)->where('trainee_id', 1)
+        //     ->with([
+        //         'course_attendances' => function ($qurey) {
+        //             $qurey->where('course_id', 1);
+        //         }
+        //     ])->count();
+        // return $c;
+        // $course = CourseAttendance::where('id', $id)->first();
+
+        // $courseTrainers = $course->trainees()->where('attendance', 1)->get();
+        // // $courseTrainers = $course->trainees()->get();
+
+        // $course['trainers'] = $courseTrainers;
+        // //   $attendance = $course->Trainees()->attendance()->first();
+
+
+        // return $course;
 
         // $course = CourseAttendance::with(['Trainees'])->where('attendance',1)->findOrFail($id)->get();
         // return response()->json([
