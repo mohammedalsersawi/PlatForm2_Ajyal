@@ -129,22 +129,26 @@ class AttendanceTraineeController extends Controller
 
     public function viewdetails(Request $request)
     {
+        $b = AttendanceTrainee::paginate(5);
+        return $b;
         $course_id = $request->course_id;
         $trainee_id = $request->trainee_id;
-        $Count_Attended = DB::select("
-        select count(C.id)
-        from attendance_trainees A,course_attendances C
-        where A.course_attendance_id= C.id and A.attendance= 1 and trainee_id = '$trainee_id' and C.course_id = '$course_id'
-        ");
-        $Count_Missed = DB::select("
-        select count(C.id)
-        from attendance_trainees A,course_attendances C
-        where A.course_attendance_id= C.id and A.attendance= 0 and trainee_id = '$trainee_id' and C.course_id = '$course_id'
-        ");
+        $attendance = DB::table('attendance_trainees')
+            ->join('course_attendances', 'course_attendances.id', '=', 'attendance_trainees.course_attendance_id')
+            ->selectRaw('count(if(attendance_trainees.attendance = 0, null, 1)) as attended')
+            ->selectRaw('count(if(attendance_trainees.attendance = 1, null, 1)) as missed')
+            ->where([
+                //'attendance_trainees.attendance' => 1,
+                'attendance_trainees.trainee_id' => $trainee_id,
+                'course_attendances.course_id' => $course_id,
+
+            ])
+            ->first();
+
         return response()->json([
             'message' => ' successfully',
-            'Count_Attended' =>  $Count_Attended,
-            'Count_Missed' =>  $Count_Missed,
+            'Count_Attended' =>  $attendance->attended,
+            'CountP_Missed' =>  $attendance->missed,
             'status' => 201
         ]);
 

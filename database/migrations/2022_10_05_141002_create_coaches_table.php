@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('coaches', function (Blueprint $table) {
-            $table->integer('id')->nullable();
+            // $table->integer('id')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->string('name');
             $table->integer('national_id')->unique();

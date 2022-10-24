@@ -10,6 +10,7 @@ class Admin extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $primaryKey = 'user_id';
 
     public function admins()
     {

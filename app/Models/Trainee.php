@@ -9,6 +9,7 @@ class Trainee extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $primaryKey = 'user_id';
 
     protected $hidden = [
         'created_at',
