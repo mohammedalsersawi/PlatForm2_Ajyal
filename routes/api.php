@@ -37,8 +37,8 @@ Route::middleware(['guest:sanctum'])->prefix('login')->group(function () {
 });
 
 
-// Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
-Route::prefix('profile')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
+// Route::prefix('profile')->group(function () {
     Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/changeprofile', [UserController::class, 'changeprofile']);
     Route::put('/changepassword', [UserController::class, 'changepassword']);
