@@ -17,12 +17,16 @@ class LatestupdateController extends Controller
      */
     public function index()
     {
-       $Latestupdate =  Latestupdate::latest()->paginate(5);
-        return response()->json([
-            'message' => 'All Latestupdate',
-            'user' => $Latestupdate,
-            'status' => 201
-        ]);
+       $items =  Latestupdate::latest()->paginate(15);
+       return response()->json([
+        'current_Page' => $items->currentPage(),
+        'total_Page' => $items->total(),
+        'per_page' => $items->perPage(),
+        'next_Page' => $items->nextPageUrl(),
+        'prev_page' => $items->previousPageUrl(),
+        'data' => $items->items(),
+         'status' => 201
+    ]);
     }
 
     /**

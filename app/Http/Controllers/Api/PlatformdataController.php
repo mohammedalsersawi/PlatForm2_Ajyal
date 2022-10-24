@@ -15,11 +15,15 @@ class PlatformdataController extends Controller
 
     public function index()
     {
-        $Platformdata =  Platformdata::all();
+        $Platformdata =  Platformdata::latest()->paginate(15);
         return response()->json([
-            'message' => 'All Latestupdate',
-            'Platformdata' => $Platformdata,
-            'status' => 201
+            'current_Page' => $Platformdata->currentPage(),
+            'total_Page' => $Platformdata->total(),
+            'per_page' => $Platformdata->perPage(),
+            'next_Page' => $Platformdata->nextPageUrl(),
+            'prev_page' => $Platformdata->previousPageUrl(),
+            'data' => $Platformdata->items(),
+             'status' => 201
         ]);
     }
 

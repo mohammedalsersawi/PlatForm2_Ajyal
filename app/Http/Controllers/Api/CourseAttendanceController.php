@@ -51,16 +51,7 @@ class CourseAttendanceController extends Controller
             ], 404);
         }
     }
-    public function viewdetails()
-    {
-        // $c = AttendanceTrainee::where('attendance', 1)->where('trainee_id', 1)->get();
-        //     ->with([
-        //         'course_attendances' => function ($qurey) {
-        //             $qurey->where('course_id', 2);
-        //         }
-        //     ])->count();
-        // return $c;
-    }
+
     /**
      * Display the specified resource.
      *
@@ -70,7 +61,7 @@ class CourseAttendanceController extends Controller
     public function show($id)
     {
 
-
+        return "d";
         $ca = CourseAttendance::where('course_id' , 1 )->with(['course_attendances'])->get();
         return $ca;
 

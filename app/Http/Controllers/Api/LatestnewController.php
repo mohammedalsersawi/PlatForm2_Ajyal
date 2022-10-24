@@ -19,11 +19,15 @@ class LatestnewController extends Controller
      */
     public function index()
     {
-        $Latestnew =  Latestnew::latest()->paginate(5);
+        $items =  Latestnew::latest()->paginate(15);
         return response()->json([
-            'message' => 'All Latestnew',
-            'user' => $Latestnew,
-            'status' => 201
+            'current_Page' => $items->currentPage(),
+            'total_Page' => $items->total(),
+            'per_page' => $items->perPage(),
+            'next_Page' => $items->nextPageUrl(),
+            'prev_page' => $items->previousPageUrl(),
+            'data' => $items->items(),
+             'status' => 201
         ]);
     }
 

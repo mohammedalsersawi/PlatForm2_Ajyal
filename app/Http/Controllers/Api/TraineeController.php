@@ -19,11 +19,15 @@ class TraineeController extends Controller
 
     public function index()
     {
-        $trainees = Trainee::latest()->paginate(5);
+        $trainees = Trainee::with('users:id,email')->latest()->paginate();
         return response()->json([
-            'message' => 'All Trainees',
-            'user' => $trainees,
-            'status' => 201
+            'current_Page' => $trainees->currentPage(),
+            'total_Page' => $trainees->total(),
+            'per_page' => $trainees->perPage(),
+            'next_Page' => $trainees->nextPageUrl(),
+            'prev_page' => $trainees->previousPageUrl(),
+            'data' => $trainees->items(),
+             'status' => 201
         ]);
     }
     public function showFreelance($id)
@@ -32,10 +36,14 @@ class TraineeController extends Controller
         $Freelancecount = FollowFreelance::where('user_id' , $id)->count();
         if($Freelance){
             return response()->json([
-                'message' => 'All Freelance',
+                'current_Page' => $Freelance->currentPage(),
+                'total_Page' => $Freelance->total(),
+                'per_page' => $Freelance->perPage(),
+                'next_Page' => $Freelance->nextPageUrl(),
+                'prev_page' => $Freelance->previousPageUrl(),
+                'data' => $Freelance->items(),
                 'Freelancecount' => $Freelancecount,
-                'Freelance' => $Freelance,
-                'status' => 201
+                 'status' => 201
             ]);
         }else {
             return response()->json([
@@ -49,9 +57,13 @@ class TraineeController extends Controller
         $course = Trainee::with(['courses'])->findOrFail($id);
         if($course){
             return response()->json([
-                'message' => 'All Course',
-                'user' => $course,
-                'status' => 201
+                'current_Page' => $course->currentPage(),
+                'total_Page' => $course->total(),
+                'per_page' => $course->perPage(),
+                'next_Page' => $course->nextPageUrl(),
+                'prev_page' => $course->previousPageUrl(),
+                'data' => $course->items(),
+                 'status' => 201
             ]);
         }else {
             return response()->json([
@@ -61,22 +73,6 @@ class TraineeController extends Controller
         }
     }
 
-    // public function showday(Request $request , $id)
-    // {
-    //     $day = CourseAttendance::where('course_id', $id)->get();
-    //     return $day->traineesco;
-
-    //     $course = CourseAttendance::where('course_id', 2)->with(['cococ'])->get();
-    //     return $course;
-
-
-    //     $u_count = AttendanceTrainee::where('trainee_id' , $id)->count();
-    //     return $u_count;
-
-
-    // }
-
-
 
 
     public function store(Request $request)
@@ -84,8 +80,8 @@ class TraineeController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|unique:users,email',
             'name' => 'required|string|between:2,100',
-            'national_id' => 'required',
-            'phone' => 'required',
+            'national_id' => 'required|min:9|max:9|regex:/[0-8]{8}/',
+            'phone' => 'required|string|min:10|max:10|regex:/[0-9]{9}/',
             'address' => 'required',
             'gender' => 'required',
         ]);
@@ -127,11 +123,13 @@ class TraineeController extends Controller
 
     public function update(Request $request, $id)
     {
+        $trainee = Trainee::where('user_id', $id)->first();
+
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
+            'email' => 'required|unique:users,email,'.$trainee->usre_id,
             'name' => 'required',
             'national_id' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|unique:trainees,phone,'.$trainee->usre_id,
             'address' => 'required',
             'gender' => 'required',
         ]);
@@ -145,7 +143,6 @@ class TraineeController extends Controller
                 'password' => bcrypt($request->national_id),
             ]);
 
-            $trainee = Trainee::where('user_id', $id)->first();
             $trainee->update([
                 'name' => $request->name,
                 'national_id' => $request->national_id,
@@ -159,6 +156,11 @@ class TraineeController extends Controller
                     'message' => 'User successfully registered',
                     'user' => $trainee,
                     'status' => 201
+                ]);
+            }else {
+                return response()->json([
+                    'message' => 'failed',
+                    'status' => 404
                 ]);
             }
         }

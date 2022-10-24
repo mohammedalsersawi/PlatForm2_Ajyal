@@ -21,12 +21,16 @@ class FollowFreelanceController extends Controller
     public function index()
     {
         $user = Auth::guard('sanctum')->user();
-        $followfreelance = FollowFreelance::where('user_id', $user->id)->get();
-        if ($followfreelance) {
+        $items = FollowFreelance::where('user_id', $user->id)->latest()->paginate(15);
+        if ($items) {
             return response()->json([
-                'message' => 'followfreelance',
-                'user' => $followfreelance,
-                'status' => 201
+                'current_Page' => $items->currentPage(),
+                'total_Page' => $items->total(),
+                'per_page' => $items->perPage(),
+                'next_Page' => $items->nextPageUrl(),
+                'prev_page' => $items->previousPageUrl(),
+                'data' => $items->items(),
+                 'status' => 201
             ]);
         }else {
             return response()->json([
@@ -85,7 +89,16 @@ class FollowFreelanceController extends Controller
      */
     public function show($id)
     {
-        return FollowFreelance::find($id);
+        $items = FollowFreelance::find($id)->latest()->paginate(15);
+        return response()->json([
+            'current_Page' => $items->currentPage(),
+            'total_Page' => $items->total(),
+            'per_page' => $items->perPage(),
+            'next_Page' => $items->nextPageUrl(),
+            'prev_page' => $items->previousPageUrl(),
+            'data' => $items->items(),
+             'status' => 201
+        ]);
     }
 
     /**

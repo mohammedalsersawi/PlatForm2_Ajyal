@@ -50,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function trainee()
     {
-        return $this->hasMany(Trainee::class);
+        return $this->hasMany(Trainee::class,'user_id','id');
     }
     /**
      * The attributes that should be cast.

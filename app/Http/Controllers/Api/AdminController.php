@@ -18,8 +18,8 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|min:6',
             'name' => 'required|string|between:2,100',
-            'national_id' => 'required',
-            'phone' => 'required',
+            'national_id' => 'required|min:9|max:9|regex:/[0-8]{8}/',
+            'phone' => 'required|string|min:10|max:10|regex:/[0-9]{9}/',
             'address' => 'required|string|between:2,100',
         ]);
         if ($validator->fails()) {
@@ -55,12 +55,14 @@ class AdminController extends Controller
 
     public function update(Request $request, $id)
     {
+        $admin = Admin::where('user_id', $id)->first();
+
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
+            'email' => 'required|unique:users,email,'.$admin->user_id,
             'password' => 'required|min:6',
             'name' => 'required|string|between:2,100',
-            'national_id' => 'required',
-            'phone' => 'required',
+            'national_id' => 'required|unique:admins,national_id,'.$admin->user_id,
+            'phone' => 'required|unique:admins,phone,'.$admin->user_id,
             'address' => 'required|string|between:2,100',
         ]);
         if ($validator->fails()) {
@@ -72,7 +74,6 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-            $admin = Admin::where('user_id', $id)->first();
             $admin->update([
                 'name' => $request->name,
                 'national_id' => $request->national_id,

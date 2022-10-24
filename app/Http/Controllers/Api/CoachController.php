@@ -13,12 +13,17 @@ class CoachController extends Controller
 {
     public function index()
     {
-        $coachs = Coach::latest()->paginate(5);
-        return response()->json([
-            'message' => 'All Trainees',
-            'user' => $coachs,
-            'status' => 201
+        $items = Coach::latest()->paginate(15);
+         return response()->json([
+            'current_Page' => $items->currentPage(),
+            'total_Page' => $items->total(),
+            'per_page' => $items->perPage(),
+            'next_Page' => $items->nextPageUrl(),
+            'prev_page' => $items->previousPageUrl(),
+            'data' => $items->items(),
+             'status' => 201
         ]);
+
     }
 
     public function show($id)
@@ -30,10 +35,9 @@ class CoachController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|unique:users,email',
-            // 'password' => 'required|min:6',
             'name' => 'required|string|between:2,100',
-            'national_id' => 'required|unique:coaches,national_id',
-            'phone' => 'required|unique:coaches,phone',
+            'national_id' => 'required|min:9|max:9|regex:/[0-8]{8}/',
+            'phone' => 'required|string|min:10|max:10|regex:/[0-9]{9}/',
             'address' => 'required',
             'Specialization' => 'required',
             'gender' => 'required',
@@ -74,15 +78,15 @@ class CoachController extends Controller
         }
     }
 
-
     public function update(Request $request, $id)
     {
+        $coach = Coach::where('user_id', $id)->first();
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
+            'email' => 'required|unique:users,email,'.$coach->usre_id,
             'password' => 'required|min:6',
             'name' => 'required|string|between:2,100',
-            'national_id' => 'required',
-            'phone' => 'required',
+            'national_id' => 'required|unique:courses,national_id,'.$coach->usre_id,
+            'phone' => 'required|unique:courses,phone,'.$coach->usre_id,
             'address' => 'required',
             'Specialization' => 'required',
             'gender' => 'required',
@@ -96,7 +100,6 @@ class CoachController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-            $coach = Coach::where('user_id', $id)->first();
             $coach->update([
                 'name' => $request->name,
                 'national_id' => $request->national_id,

@@ -8,6 +8,7 @@ use App\Models\Coach;
 use App\Models\Trainee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -142,12 +143,12 @@ class UserController extends Controller
     {
         $user = Auth::guard('sanctum')->user();
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            // 'password' => 'required|min:6',
+            'email' => 'required|unique:users,email,'.$user->id,
             'name' => 'required|string|between:2,100',
             'phone' => 'required',
             'address' => 'required|string|between:2,100',
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         } else {

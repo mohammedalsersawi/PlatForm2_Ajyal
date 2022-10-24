@@ -8,6 +8,8 @@ use App\Models\CourseAttendance;
 use App\Models\AttendanceTrainee;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class AttendanceTraineeController extends Controller
@@ -127,31 +129,31 @@ class AttendanceTraineeController extends Controller
 
 
 
-    public function viewdetails(Request $request)
+    public function viewdetails(Request $request ,$course_id)
     {
-        $b = AttendanceTrainee::paginate(5);
-        return $b;
-        $course_id = $request->course_id;
-        $trainee_id = $request->trainee_id;
+        $user = Auth::guard('sanctum')->user();
+        if($user->type == 'Trainee'){
+            $trainee_id = $user->id;
+        }else {
+            $trainee_id = $request->trainee_id;
+        }
+
         $attendance = DB::table('attendance_trainees')
             ->join('course_attendances', 'course_attendances.id', '=', 'attendance_trainees.course_attendance_id')
             ->selectRaw('count(if(attendance_trainees.attendance = 0, null, 1)) as attended')
-            ->selectRaw('count(if(attendance_trainees.attendance = 1, null, 1)) as missed')
+            ->selectRaw('count(if(attendance_trainees.attendance = 1, null, 0)) as missed')
             ->where([
                 //'attendance_trainees.attendance' => 1,
                 'attendance_trainees.trainee_id' => $trainee_id,
                 'course_attendances.course_id' => $course_id,
-
             ])
             ->first();
-
         return response()->json([
             'message' => ' successfully',
             'Count_Attended' =>  $attendance->attended,
             'CountP_Missed' =>  $attendance->missed,
             'status' => 201
         ]);
-
 
         }
 
@@ -178,40 +180,5 @@ class AttendanceTraineeController extends Controller
 
 
 
-    public function viewdetails1()
-    {
-         $course = CourseAttendance::where('course_id', 1)->first();
 
-        $courseTrainers = $course->trainees()->where('attendance', 1)->get();
-        // $courseTrainers = $course->trainees()->get();
-
-        $course['trainers'] = $courseTrainers;
-        return $course;
-
-        // $course = CourseAttendance::where('course_id',1 )->count();
-        // $courseTrainers = $course->trainees()->where('attendance', 1)->count();
-        // return $courseTrainers;
-
-        // return $course->where('attendance', 1)->first();
-
-        // $courseTrainers = $course->trainees()->where('attendance', 1)->get();
-        // $courseTrainers = $course->trainees()->get();
-
-        // $course['trainers'] = $courseTrainers;
-
-
-
-        //  $w=Course::where('id',1)->exists();
-        //  if ($w){
-        //             $c=AttendanceTrainee::where('attendance', 1)->where('trainee_id', 1)->with([
-        //             'course_attendances' => function ($qurey) {
-        //             $qurey->where('course_id',1);
-        //             }
-        //             ])->count();
-        //             }else{
-        //                 return 'cccc';
-        //             }
-        //             return $c;
-
-    }
         }

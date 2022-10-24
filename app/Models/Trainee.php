@@ -21,14 +21,14 @@ class Trainee extends Model
         return $this->hasMany(CourseAttendance::class );
     }
 
-    public function trainee()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class, 'courses_trainees' );
+        return $this->belongsToMany(Course::class, 'courses_trainees' ,'trainee_id');
     }
 
 

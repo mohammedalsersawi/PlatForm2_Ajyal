@@ -21,26 +21,56 @@ class CourseController extends Controller
         $coach = Coach::where('user_id', $user->id)->first();
         if ($user->type == 'Coach') {
             $courses_coach_id = $coach->user_id;
-            $course = Course::where('courses_coach_id' , $courses_coach_id)->get();
-            return response()->json([
-                'message' => 'User successfully registered',
-                'Course' => $course,
-                'status' => 201
-            ]);
+            $items = Course::where('courses_coach_id' , $courses_coach_id)->latest()->paginate(15);
+            $next_Page = $items->nextPageUrl();
+                $prev_page = $items->previousPageUrl();
+                $next_Page =$next_Page[-1];
+                $next_Page = (int)$next_Page;
+                $prev_page = $prev_page[-1];
+                $prev_page = (int)$prev_page;
+                return response()->json([
+                    'current_Page' => $items->currentPage(),
+                    'total_Page' => $items->total(),
+                    'per_page' => $items->perPage(),
+                    'next_Page' => $next_Page,
+                    'prev_page' => $prev_page,
+                    'data' => $items->items(),
+                    'status' => 201
+                ]);
+
         } elseif ($user->type == 'Admin') {
-            $course = Course::all();
-            return response()->json([
-                'message' => 'User successfully registered',
-                'Course' => $course,
-                'status' => 201
-            ]);
+            $items = Course::latest()->paginate(15);
+            $next_Page = $items->nextPageUrl();
+                $prev_page = $items->previousPageUrl();
+                $next_Page =$next_Page[-1];
+                $next_Page = (int)$next_Page;
+                $prev_page = $prev_page[-1];
+                $prev_page = (int)$prev_page;
+                return response()->json([
+                    'current_Page' => $items->currentPage(),
+                    'total_Page' => $items->total(),
+                    'per_page' => $items->perPage(),
+                    'next_Page' => $next_Page,
+                    'prev_page' => $prev_page,
+                    'data' => $items->items(),
+                    'status' => 201
+                ]);
         }
     }
 
     public function show($id)
     {
-        $course = Course::with(['trainees'])->findOrFail($id);
-       return $course;
+
+        $items = Course::with(['trainees'])->findOrFail($id)->latest()->paginate(15);
+        return response()->json([
+            'current_Page' => $items->currentPage(),
+            'total_Page' => $items->total(),
+            'per_page' => $items->perPage(),
+            'next_Page' => $items->nextPageUrl(),
+            'prev_page' => $items->previousPageUrl(),
+            'data' => $items->items(),
+             'status' => 201
+        ]);
     }
 
     public function store(Request $request)

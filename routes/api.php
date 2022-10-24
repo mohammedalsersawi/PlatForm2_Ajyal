@@ -47,7 +47,7 @@ Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::post('admin', [AdminController::class, 'store']); //ADD
-    Route::put('update/admin/{id}', [AdminController::class, 'update']); //ADD
+    Route::post('update/admin/{id}', [AdminController::class, 'update']); //ADD
 
 
     Route::post('coach', [CoachController::class, 'store']); //ADD
@@ -60,7 +60,7 @@ Route::prefix('admin')->group(function () {
     Route::get('trainee', [TraineeController::class, 'index']); //ADD
     Route::get('show/Freelance/job/{id}', [TraineeController::class, 'showFreelance']); //ADD
     Route::get('show/course/{id}', [TraineeController::class, 'showcourse']); //ADD
-    Route::get('viewdetails/{course_id}/{trainee_id}', [AttendanceTraineeController::class, 'viewdetails']); //ADD
+    Route::get('viewdetails/{course_id}/{trainee_id?}', [AttendanceTraineeController::class, 'viewdetails']); //ADD
 
 
 
