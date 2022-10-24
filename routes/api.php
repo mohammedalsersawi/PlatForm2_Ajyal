@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
     Route::get('user/logout', [UserController::class, 'logout']);
 });
 
-Route::prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function () {
     Route::post('admin', [AdminController::class, 'store']); //ADD
     Route::post('update/admin/{id}', [AdminController::class, 'update']); //ADD
 
