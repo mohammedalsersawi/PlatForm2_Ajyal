@@ -18,7 +18,10 @@ class CourseAttendance extends Model
     }
 
 
-
+    public function Course_trainees()
+    {
+        return $this->belongsToMany(Trainee::class, 'attendance_trainees', 'course_attendance_id', 'trainee_id', 'id','user_id');
+    }
 
 
 }

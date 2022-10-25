@@ -52,6 +52,13 @@ class CourseAttendanceController extends Controller
         }
     }
 
+    // public function show_trainee_Course($id)
+    // {
+    //     $course = CourseAttendance::with(['Course_trainees'])->findOrFail($id);
+    //     return $course;
+
+    // }
+
     /**
      * Display the specified resource.
      *
@@ -61,9 +68,8 @@ class CourseAttendanceController extends Controller
     public function show($id)
     {
 
-        return "d";
-        $ca = CourseAttendance::where('course_id' , 1 )->with(['course_attendances'])->get();
-        return $ca;
+        // $ca = CourseAttendance::where('course_id' , 1 )->with(['course_attendances'])->get();
+        // return $ca;
 
         // $c = AttendanceTrainee::where('attendance', 1)->where('trainee_id', 1)
         //     ->with([

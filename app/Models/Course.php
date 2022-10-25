@@ -12,7 +12,7 @@ class Course extends Model
 
     public function trainees()
     {
-        return $this->belongsToMany(Trainee::class, 'courses_trainees', 'course_id', 'trainee_id', 'id', 'user_id');
+        return $this->belongsToMany(Trainee::class, 'courses_trainees', 'course_id', 'trainee_id', 'id','user_id');
     }
 
 
@@ -21,4 +21,7 @@ class Course extends Model
         return $this->belongsTo(Coach::class, 'courses_coach_id');
 
     }
+
+
+
 }

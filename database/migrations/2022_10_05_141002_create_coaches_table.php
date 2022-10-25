@@ -17,7 +17,7 @@ return new class extends Migration
             // $table->integer('id')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->string('name');
-            $table->integer('national_id')->unique();
+            $table->string('national_id');
             $table->integer('phone')->unique();
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('address');

@@ -38,7 +38,6 @@ Route::middleware(['guest:sanctum'])->prefix('login')->group(function () {
 
 
 Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
-// Route::prefix('profile')->group(function () {
     Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/changeprofile', [UserController::class, 'changeprofile']);
     Route::put('/changepassword', [UserController::class, 'changepassword']);
@@ -68,12 +67,19 @@ Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function (
     Route::put('/user/{id}/restore', [UserController::class, 'restore']);
     Route::delete('/userForceDelete/{id}', [UserController::class, 'forceDelete']);  // forceDelete
 
-    Route::apiResource('course', CourseController::class);
+    Route::apiResource('course', CourseController::class)->except('update');
+    Route::post('course/{id}', [CourseController::class, 'update']);
+    Route::get('showday/{id}', [CourseController::class, 'showday']);
+    Route::get('showday/trainee/{id}', [CourseController::class, 'show_trainee_Course']);
+
+
 
 
     Route::apiResource('workout', CoursesTraineeController::class);
     Route::apiResource('CourseAttendance', CourseAttendanceController::class);
     Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
+    Route::post('update/attendance', [AttendanceTraineeController::class, 'update_attendance_trainee']);
+
 
 
 
@@ -86,7 +92,9 @@ Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function (
 
 
     Route::apiResource('latestupdate', LatestupdateController::class);
-    Route::apiResource('Platformdata', PlatformdataController::class);
+    Route::apiResource('Platformdata', PlatformdataController::class)->except('update');
+    Route::post('Platformdata/{id}', [PlatformdataController::class, 'update']);
+
     Route::get('statistics', [PlatformdataController::class, 'statistics']);
 
 

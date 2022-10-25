@@ -23,6 +23,23 @@ class AttendanceTraineeController extends Controller
     {
         //
     }
+    public function update_attendance_trainee(Request $request)
+    {
+        $update_attendance = AttendanceTrainee::where([
+            'course_attendance_id'=>$request->course_attendance_id,
+            'trainee_id'=>$request->trainee_id,
+        ])->first();
+        $update_attendance->update([
+            'attendance' => $request->attendance,
+
+        ]);
+        return response()->json([
+            'message' => 'User successfully updated',
+            'data' => $update_attendance,
+            'status' => 201
+        ]);
+
+    }
 
     /**
      * Store a newly created resource in storage.

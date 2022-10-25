@@ -80,7 +80,7 @@ class TraineeController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|unique:users,email',
             'name' => 'required|string|between:2,100',
-            'national_id' => 'required|min:9|max:9|regex:/[0-8]{8}/',
+            'national_id' => 'required|min:9|max:9|regex:/[0-9]{9}/',
             'phone' => 'required|string|min:10|max:10|regex:/[0-9]{9}/',
             'address' => 'required',
             'gender' => 'required',

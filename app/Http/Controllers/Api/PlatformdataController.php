@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Course;
+use App\Models\Trainee;
+use Illuminate\Support\Str;
+use App\Models\Latestupdate;
 use App\Models\Platformdata;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Course;
-use App\Models\Latestupdate;
-use App\Models\Trainee;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class PlatformdataController extends Controller
@@ -23,7 +25,7 @@ class PlatformdataController extends Controller
             'next_Page' => $Platformdata->nextPageUrl(),
             'prev_page' => $Platformdata->previousPageUrl(),
             'data' => $Platformdata->items(),
-             'status' => 201
+            'status' => 201
         ]);
     }
 
@@ -34,10 +36,24 @@ class PlatformdataController extends Controller
             'key' => 'required',
             'value' => 'required',
         ]);
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         } else {
+
+            if ($image = $request->file('value')) {
+                $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
+                $Path = 'uploads/latestnew';
+                $image->move($Path, $newfile);
+               $hero_image =  Platformdata::create([
+                    'key' => $request->key,
+                    'value' => "/uploads/latestnew/$newfile",
+                ]);
+                return response()->json([
+                    'message' => 'latestupdate successfully added',
+                    'Platformdata' => $hero_image,
+                    'status' => 201
+                ]);
+            }else {
             $Platformdata = Platformdata::create($request->all());
             if ($Platformdata) {
                 return response()->json([
@@ -47,6 +63,7 @@ class PlatformdataController extends Controller
                 ]);
             }
         }
+    }
     }
 
 
@@ -59,6 +76,23 @@ class PlatformdataController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         } else {
+
+
+            if ($image = $request->file('value')) {
+                $hero_image = Platformdata::where('key', 'hero_image')->first();
+                File::delete(public_path($hero_image->value));
+                $newfile =  Str::random(30) . '.' . $image->getClientOriginalName();
+                $Path = 'uploads/latestnew';
+                $image->move($Path, $newfile);
+                $hero_image->update([
+                    'value' => "/uploads/latestnew/$newfile",
+                ]);
+                return response()->json([
+                    'message' => 'latestupdate successfully added',
+                    'Platformdata' => $hero_image,
+                    'status' => 201
+                ]);
+            }else {
             $Platformdata = Platformdata::where('id', $id)->first();
             if ($Platformdata) {
                 $Platformdata->update([
@@ -77,7 +111,7 @@ class PlatformdataController extends Controller
             }
         }
     }
-
+    }
 
     public function destroy($id)
     {

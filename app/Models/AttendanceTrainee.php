@@ -11,7 +11,11 @@ class AttendanceTrainee extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
 
+    ];
 
 
     public function course_attendances()
@@ -21,8 +25,11 @@ class AttendanceTrainee extends Model
 
     public function trainees()
     {
-        return $this->belongsToMany(Trainee::class, 'attendance_trainees' );
+        return $this->belongsToMany(Trainee::class, 'attendance_trainees' , 'trainee_id', 'id','user_id' );
     }
-
+    public function trainee()
+    {
+        return $this->belongsTo(Trainee::class,'trainee_id','user_id');
+    }
 
 }
