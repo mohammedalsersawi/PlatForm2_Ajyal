@@ -85,17 +85,15 @@ Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function (
 
     Route::post('latestnew', [LatestnewController::class, 'store']);
     Route::post('latestnew/{id}', [LatestnewController::class, 'update']);
-    Route::get('latestnew', [LatestnewController::class, 'index']);
     Route::get('latestnew/{id}', [LatestnewController::class, 'show']);
     Route::delete('latestnew/{id}', [LatestnewController::class, 'destroy']);
 
 
 
-    Route::apiResource('latestupdate', LatestupdateController::class);
-    Route::apiResource('Platformdata', PlatformdataController::class)->except('update');
+    Route::apiResource('latestupdate', LatestupdateController::class)->except('store');
+    Route::apiResource('Platformdata', PlatformdataController::class)->except('update' , 'store');
     Route::post('Platformdata/{id}', [PlatformdataController::class, 'update']);
 
-    Route::get('statistics', [PlatformdataController::class, 'statistics']);
 
 
 });
@@ -112,4 +110,12 @@ Route::middleware(['auth:sanctum' , 'coach'])->prefix('coach')->group(function (
 
 Route::middleware(['auth:sanctum'])->prefix('trainee')->group(function () {
     Route::apiResource('followfreelance', FollowFreelanceController::class);
+});
+
+Route::prefix('ajyal')->group(function () {
+    Route::get('latestnew', [LatestnewController::class, 'index']);
+    Route::get('latestupdate', [LatestupdateController::class, 'index']);
+    Route::get('Platformdata', [PlatformdataController::class, 'index']);
+    Route::get('statistics', [PlatformdataController::class, 'statistics']);
+
 });
