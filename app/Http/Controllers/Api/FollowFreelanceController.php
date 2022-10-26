@@ -39,6 +39,26 @@ class FollowFreelanceController extends Controller
         }
     }
 
+    public function show_freelances()
+    {
+        $show_freelances = FollowFreelance::orderBy('user_id')->latest()->paginate(15);
+        if ($show_freelances) {
+            return response()->json([
+                'current_Page' => $show_freelances->currentPage(),
+                'total_Page' => $show_freelances->total(),
+                'per_page' => $show_freelances->perPage(),
+                'next_Page' => $show_freelances->nextPageUrl(),
+                'prev_page' => $show_freelances->previousPageUrl(),
+                'data' => $show_freelances->items(),
+                 'status' => 201
+            ]);
+        }else {
+            return response()->json([
+                'message' => 'failed',
+            ], 404);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *

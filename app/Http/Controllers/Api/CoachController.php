@@ -14,22 +14,32 @@ class CoachController extends Controller
     public function index()
     {
         $items = Coach::latest()->paginate(15);
-         return response()->json([
+        return response()->json([
             'current_Page' => $items->currentPage(),
             'total_Page' => $items->total(),
             'per_page' => $items->perPage(),
             'next_Page' => $items->nextPageUrl(),
             'prev_page' => $items->previousPageUrl(),
             'data' => $items->items(),
-             'status' => 201
+            'status' => 201
         ]);
-
     }
 
-    public function show($id)
+    public function show($user_id)
     {
-        //  $course = Trainee::with(['courses'])->findOrFail($id);
-        // return $course;
+        $coach = Coach::where('user_id', $user_id)->first();
+        if ($coach) {
+            return response()->json([
+                'message' => 'successfully',
+                'Coach' => $coach,
+                'status' => 201
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'failed',
+                'status' => 404
+            ]);
+        }
     }
     public function store(Request $request)
     {
@@ -82,11 +92,11 @@ class CoachController extends Controller
     {
         $coach = Coach::where('user_id', $id)->first();
         $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users,email,'.$coach->usre_id,
+            'email' => 'required|unique:users,email,' . $coach->usre_id,
             'password' => 'required|min:6',
             'name' => 'required|string|between:2,100',
-            'national_id' => 'required|unique:courses,national_id,'.$coach->usre_id,
-            'phone' => 'required|unique:courses,phone,'.$coach->usre_id,
+            'national_id' => 'required|unique:courses,national_id,' . $coach->usre_id,
+            'phone' => 'required|unique:courses,phone,' . $coach->usre_id,
             'address' => 'required',
             'Specialization' => 'required',
             'gender' => 'required',

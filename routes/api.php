@@ -44,7 +44,7 @@ Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
     Route::get('user/logout', [UserController::class, 'logout']);
 });
 
-Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::post('admin', [AdminController::class, 'store']); //ADD
     Route::post('update/admin/{id}', [AdminController::class, 'update']); //ADD
 
@@ -52,15 +52,16 @@ Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function (
     Route::post('coach', [CoachController::class, 'store']); //ADD
     Route::put('update/coach/{id}', [CoachController::class, 'update']); //ADD
     Route::get('coach', [CoachController::class, 'index']); //ADD
+    Route::get('coach/{user_id}', [CoachController::class, 'show']); //ADD
 
 
     Route::post('trainee', [TraineeController::class, 'store']); //ADD
     Route::put('update/trainee/{id}', [TraineeController::class, 'update']); //ADD
     Route::get('trainee', [TraineeController::class, 'index']); //ADD
-    Route::get('show/Freelance/job/{id}', [TraineeController::class, 'showFreelance']); //ADD
-    Route::get('show/course/{id}', [TraineeController::class, 'showcourse']); //ADD
-    Route::get('viewdetails/{course_id}/{trainee_id?}', [AttendanceTraineeController::class, 'viewdetails']); //ADD
+    Route::get('trainee/{user_id}', [TraineeController::class, 'show']); //ADD
 
+    Route::post('add/featured', [TraineeController::class, 'add_featured']); //ADD
+    Route::post('update/featured', [TraineeController::class, 'update_featured']); //ADD
 
 
     Route::delete('/userSoftDeletes/{id}', [UserController::class, 'softDeletes']);  //softDeletes
@@ -94,11 +95,14 @@ Route::middleware(['auth:sanctum', 'admin' ])->prefix('admin')->group(function (
     Route::apiResource('Platformdata', PlatformdataController::class)->except('update' , 'store');
     Route::post('Platformdata/{id}', [PlatformdataController::class, 'update']);
 
+    Route::get('show/freelances', [FollowFreelanceController::class, 'show_freelances']);
+
+
 
 
 });
 
-Route::middleware(['auth:sanctum' , 'coach'])->prefix('coach')->group(function () {
+Route::middleware(['auth:sanctum' , 'admin',  'coach'])->prefix('coach')->group(function () {
     Route::apiResource('CourseAttendance', CourseAttendanceController::class);
     Route::apiResource('AttendanceTrainee', AttendanceTraineeController::class);
     Route::get('course', [CourseController::class, 'show']); //ADD
@@ -110,10 +114,18 @@ Route::middleware(['auth:sanctum'])->prefix('trainee')->group(function () {
     Route::apiResource('followfreelance', FollowFreelanceController::class);
 });
 
+
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
+ Route::get('show/Freelance/job/{id}', [TraineeController::class, 'showFreelance']); //ADD
+ Route::get('show/course/{id}', [TraineeController::class, 'showcourse']); //ADD
+ Route::get('viewdetails/{course_id}/{trainee_id?}', [AttendanceTraineeController::class, 'viewdetails']); //ADD
+});
+
 Route::prefix('ajyal')->group(function () {
     Route::get('latestnew', [LatestnewController::class, 'index']);
     Route::get('latestupdate', [LatestupdateController::class, 'index']);
     Route::get('Platformdata', [PlatformdataController::class, 'index']);
     Route::get('statistics', [PlatformdataController::class, 'statistics']);
+    Route::get('featured/trainee', [PlatformdataController::class, 'featured_trainee']);
 
 });

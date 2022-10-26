@@ -29,6 +29,24 @@ class PlatformdataController extends Controller
         ]);
     }
 
+    public function featured_trainee()
+    {
+        $featured_trainee = Trainee::where('level' , 'Featured')->limit(20)->get(['name', 'image' , 'link']);
+        if($featured_trainee){
+            return response()->json([
+                'message' => 'successfully',
+                'Featured_Trainee' => $featured_trainee,
+                 'status' => 201
+            ]);
+        }else {
+            return response()->json([
+                'message' => 'Null',
+                'status' => 404
+        ]);
+    }
+
+    }
+
 
     public function store(Request $request)
     {

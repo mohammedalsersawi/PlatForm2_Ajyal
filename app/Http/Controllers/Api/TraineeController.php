@@ -30,6 +30,28 @@ class TraineeController extends Controller
              'status' => 201
         ]);
     }
+
+
+    public function show($user_id)
+    {
+        $trainee = Trainee::where('user_id' , $user_id)->first();
+        if($trainee){
+        return response()->json([
+            'message' => 'successfully',
+            'Trainee' => $trainee,
+            'status' => 201
+        ]);
+    } else {
+        return response()->json([
+            'message' => 'failed',
+            'status' => 404
+        ]);
+
+    }
+
+
+
+    }
     public function showFreelance($id)
     {
         $Freelance = FollowFreelance::where('user_id' , $id)->get();
@@ -71,6 +93,35 @@ class TraineeController extends Controller
                 'status' => 404
         ]);
         }
+    }
+
+    public function add_featured(Request $request)
+    {
+        $user_id = $request->user_id;
+        $add_featured = Trainee::where('user_id' , $user_id)->first();
+        if($add_featured){
+        $add_featured->update([
+            'level' => $request->level,
+        ]);
+        return response()->json([
+            'message' => 'User successfully registered',
+            'status' => 201
+        ]);
+    }
+    }
+    public function update_featured(Request $request)
+    {
+        $user_id = $request->user_id;
+        $add_featured = Trainee::where('user_id' , $user_id)->first();
+        if($add_featured){
+        $add_featured->update([
+            'level' => $request->level,
+        ]);
+        return response()->json([
+            'message' => 'User successfully updated',
+            'status' => 201
+        ]);
+    }
     }
 
 
