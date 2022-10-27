@@ -81,7 +81,7 @@ class LatestnewController extends Controller
         $latestnew = Latestnew::where('id', $id)->first();
         if ($latestnew) {
             return response()->json([
-                'message' => 'User successfully get',
+                'message' => 'successfully get',
                 'user' => $latestnew,
                 'status' => 201
             ]);
