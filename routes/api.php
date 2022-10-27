@@ -86,7 +86,6 @@ Route::prefix('admin')->group(function () {
 
     Route::post('latestnew', [LatestnewController::class, 'store']);
     Route::post('latestnew/{id}', [LatestnewController::class, 'update']);
-    Route::get('latestnew/{id}', [LatestnewController::class, 'show']);
     Route::delete('latestnew/{id}', [LatestnewController::class, 'destroy']);
 
 
@@ -123,6 +122,7 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
 
 Route::prefix('ajyal')->group(function () {
     Route::get('latestnew', [LatestnewController::class, 'index']);
+    Route::get('latestnew/{id}', [LatestnewController::class, 'show']);
     Route::get('latestupdate', [LatestupdateController::class, 'index']);
     Route::get('Platformdata', [PlatformdataController::class, 'index']);
     Route::get('statistics', [PlatformdataController::class, 'statistics']);
