@@ -53,6 +53,19 @@ class CourseController extends Controller
         return $course;
     }
 
+    public function show_allcourses()
+    {
+        $items = Course::latest()->paginate(15);
+            return response()->json([
+                'current_Page' => $items->currentPage(),
+                'total_Page' => $items->total(),
+                'per_page' => $items->perPage(),
+                'next_Page' =>  $items->nextPageUrl(),
+                'prev_page' => $items->previousPageUrl(),
+                'data' => $items->items(),
+                'status' => 201
+            ]);
+    }
 
 
     public function showday($id)

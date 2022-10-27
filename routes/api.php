@@ -92,7 +92,7 @@ Route::prefix('admin')->group(function () {
 
 
     Route::apiResource('latestupdate', LatestupdateController::class)->except('store');
-    Route::apiResource('Platformdata', PlatformdataController::class)->except('update' , 'store');
+    Route::apiResource('Platformdata', PlatformdataController::class)->except('update' , 'index');
     Route::post('Platformdata/{id}', [PlatformdataController::class, 'update']);
 
     Route::get('show/freelances', [FollowFreelanceController::class, 'show_freelances']);
@@ -127,5 +127,6 @@ Route::prefix('ajyal')->group(function () {
     Route::get('Platformdata', [PlatformdataController::class, 'index']);
     Route::get('statistics', [PlatformdataController::class, 'statistics']);
     Route::get('featured/trainee', [PlatformdataController::class, 'featured_trainee']);
+    Route::get('show/allcourses', [CourseController::class, 'show_allcourses']);
 
 });
