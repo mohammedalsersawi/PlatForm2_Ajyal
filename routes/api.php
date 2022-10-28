@@ -90,7 +90,7 @@ Route::prefix('admin')->group(function () {
 
 
 
-    Route::apiResource('latestupdate', LatestupdateController::class)->except('store');
+    Route::apiResource('latestupdate', LatestupdateController::class)->except('index');
     Route::apiResource('Platformdata', PlatformdataController::class)->except('update' , 'index');
     Route::post('Platformdata/{id}', [PlatformdataController::class, 'update']);
 
