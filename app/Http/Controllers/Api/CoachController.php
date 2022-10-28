@@ -41,6 +41,13 @@ class CoachController extends Controller
             ]);
         }
     }
+
+    public function show_coachs()
+    {
+        $coachs = Coach::all(['user_id' , 'name']);
+        return $coachs;
+
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

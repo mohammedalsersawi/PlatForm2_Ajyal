@@ -53,6 +53,7 @@ Route::prefix('admin')->group(function () {
     Route::put('update/coach/{user_id}', [CoachController::class, 'update']); //ADD
     Route::get('coach', [CoachController::class, 'index']); //ADD
     Route::get('coach/{user_id}', [CoachController::class, 'show']); //ADD
+    Route::get('coachs', [CoachController::class, 'show_coachs']); //ADD
 
 
     Route::post('trainee', [TraineeController::class, 'store']); //ADD
