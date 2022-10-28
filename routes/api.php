@@ -119,12 +119,13 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
  Route::get('show/Freelance/job/{id}', [TraineeController::class, 'showFreelance']); //ADD
  Route::get('show/course/{id}', [TraineeController::class, 'showcourse']); //ADD
  Route::get('viewdetails/{course_id}/{trainee_id?}', [AttendanceTraineeController::class, 'viewdetails']); //ADD
+ Route::get('latestupdate', [LatestupdateController::class, 'index']);
+
 });
 
 Route::prefix('ajyal')->group(function () {
     Route::get('latestnew', [LatestnewController::class, 'index']);
     Route::get('latestnew/{id}', [LatestnewController::class, 'show']);
-    Route::get('latestupdate', [LatestupdateController::class, 'index']);
     Route::get('Platformdata', [PlatformdataController::class, 'index']);
     Route::get('statistics', [PlatformdataController::class, 'statistics']);
     Route::get('featured/trainee', [PlatformdataController::class, 'featured_trainee']);
