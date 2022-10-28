@@ -42,7 +42,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
     public function coaches()
     {
-        return $this->hasMany(Coach::class);
+        return $this->hasMany(Coach::class , 'id' ,'user_id');
     }
     public function admins()
     {

@@ -3,15 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
-use App\Models\Coach;
-use App\Models\Course;
 use App\Models\Trainee;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\AttendanceTrainee;
-use App\Models\CourseAttendance;
-use App\Models\CoursesTrainee;
 use App\Models\FollowFreelance;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class TraineeController extends Controller
@@ -172,23 +168,26 @@ class TraineeController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $user_id)
     {
-        $trainee = Trainee::where('user_id', $id)->first();
+        $trainee = Trainee::where('user_id', $user_id)->first();
+        $user = User::where('id' , $user_id)->first();
 
         $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users,email,'.$trainee->usre_id,
+            'email' => 'required|unique:users,email,'.$user->id,
             'name' => 'required',
             'national_id' => 'required',
-            'phone' => 'required|unique:trainees,phone,'.$trainee->usre_id,
+            'phone' => 'required|unique:trainees,phone,' . $user_id,
+            'phone' => 'required',
             'address' => 'required',
             'gender' => 'required',
+
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         } else {
 
-            $user = User::where('id', $id)->first();
+            $user = User::where('id', $user_id)->first();
             $user->update([
                 'email' => $request->email,
                 'password' => bcrypt($request->national_id),

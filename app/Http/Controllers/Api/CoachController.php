@@ -88,24 +88,26 @@ class CoachController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $user_id)
     {
-        $coach = Coach::where('user_id', $id)->first();
+        $coach = Coach::where('user_id', $user_id)->first();
+        $user = User::where('id' , $user_id)->first();
+
         $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users,email,' . $coach->usre_id,
-            'password' => 'required|min:6',
-            'name' => 'required|string|between:2,100',
-            'national_id' => 'required|unique:courses,national_id,' . $coach->usre_id,
-            'phone' => 'required|unique:courses,phone,' . $coach->usre_id,
+            'email' => 'required|unique:users,email,'.$user->id,
+            'name' => 'required',
+            'national_id' => 'required',
+            'phone' => 'required|unique:coaches,phone,' . $user_id,
+            'phone' => 'required',
             'address' => 'required',
-            'Specialization' => 'required',
             'gender' => 'required',
+
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         } else {
 
-            $user = User::where('id', $id)->first();
+            $user = User::where('id', $user_id)->first();
             $user->update([
                 'email' => $request->email,
                 'password' => bcrypt($request->password),

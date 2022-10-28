@@ -12,6 +12,7 @@ class Coach extends Model
 
     protected $primaryKey = 'user_id';
 
+
     public function coaches()
     {
         return $this->belongsTo(User::class);

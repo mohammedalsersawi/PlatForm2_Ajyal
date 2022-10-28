@@ -50,13 +50,13 @@ Route::prefix('admin')->group(function () {
 
 
     Route::post('coach', [CoachController::class, 'store']); //ADD
-    Route::put('update/coach/{id}', [CoachController::class, 'update']); //ADD
+    Route::put('update/coach/{user_id}', [CoachController::class, 'update']); //ADD
     Route::get('coach', [CoachController::class, 'index']); //ADD
     Route::get('coach/{user_id}', [CoachController::class, 'show']); //ADD
 
 
     Route::post('trainee', [TraineeController::class, 'store']); //ADD
-    Route::put('update/trainee/{id}', [TraineeController::class, 'update']); //ADD
+    Route::put('update/trainee/{user_id}', [TraineeController::class, 'update']); //ADD
     Route::get('trainee', [TraineeController::class, 'index']); //ADD
     Route::get('trainee/{user_id}', [TraineeController::class, 'show']); //ADD
 
