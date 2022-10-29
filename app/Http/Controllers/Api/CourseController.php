@@ -167,10 +167,22 @@ class CourseController extends Controller
                         'status' => 201
                     ]);
                 } else {
+                    $course->update([
+                        'name' => $request->name,
+                        'courses_coach_id' => $request->courses_coach_id,
+                        'time' => $request->time,
+                        'classification' => $request->classification,
+                        'start_date' => $request->start_date,
+                        'link' => $request->link,
+                    ]);
                     return response()->json([
-                        'massage' => 'user Faild',
+                        'message' => ' successfully update',
+                        'user' => $course,
+                        'status' => 201
                     ]);
                 }
+            }else {
+
             }
         }
     }
