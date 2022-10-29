@@ -30,9 +30,9 @@ class FollowFreelanceController extends Controller
                 'next_Page' => $items->nextPageUrl(),
                 'prev_page' => $items->previousPageUrl(),
                 'data' => $items->items(),
-                 'status' => 201
+                'status' => 201
             ]);
-        }else {
+        } else {
             return response()->json([
                 'message' => 'failed',
             ], 404);
@@ -50,9 +50,9 @@ class FollowFreelanceController extends Controller
                 'next_Page' => $show_freelances->nextPageUrl(),
                 'prev_page' => $show_freelances->previousPageUrl(),
                 'data' => $show_freelances->items(),
-                 'status' => 201
+                'status' => 201
             ]);
-        }else {
+        } else {
             return response()->json([
                 'message' => 'failed',
             ], 404);
@@ -77,29 +77,29 @@ class FollowFreelanceController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         } else {
-        $user = Auth::guard('sanctum')->user();
-        $followfreelance = FollowFreelance::create([
+            $user = Auth::guard('sanctum')->user();
+            $followfreelance = FollowFreelance::create([
                 'user_id' => $user->id,
                 'Platform' => $request->Platform,
                 'title' => $request->title,
                 'details' => $request->details,
                 'budget' => $request->budget,
                 'date' => $request->date,
-        ]);
-        $total_income = Trainee::where('user_id', $user->id)->first();
-        $old_income = $total_income->total_income;
-        $new_income = $old_income + $request->budget;
-        $total_income->update([
-            'total_income' => $new_income,
-        ]);
-        if ($followfreelance) {
-            return response()->json([
-                'message' => 'followfreelance successfully added',
-                'user' => $followfreelance,
-                'status' => 201
             ]);
+            $total_income = Trainee::where('user_id', $user->id)->first();
+            $old_income = $total_income->total_income;
+            $new_income = $old_income + $request->budget;
+            $total_income->update([
+                'total_income' => $new_income,
+            ]);
+            if ($followfreelance) {
+                return response()->json([
+                    'message' => 'followfreelance successfully added',
+                    'user' => $followfreelance,
+                    'status' => 201
+                ]);
+            }
         }
-    }
     }
     /**
      * Display the specified resource.
@@ -109,16 +109,21 @@ class FollowFreelanceController extends Controller
      */
     public function show($id)
     {
-        $items = FollowFreelance::find($id)->latest()->paginate(15);
-        return response()->json([
-            'current_Page' => $items->currentPage(),
-            'total_Page' => $items->total(),
-            'per_page' => $items->perPage(),
-            'next_Page' => $items->nextPageUrl(),
-            'prev_page' => $items->previousPageUrl(),
-            'data' => $items->items(),
-             'status' => 201
-        ]);
+
+        $items = FollowFreelance::find($id);
+        if ($items) {
+            return response()->json([
+                'message' => 'followfreelance successfully get',
+                'FollowFreelance' => $items,
+                'status' => 201
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'failed',
+                'status' => 404
+
+            ]);
+        }
     }
 
     /**
@@ -128,7 +133,7 @@ class FollowFreelanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'Platform' => 'required|string',
@@ -143,18 +148,18 @@ class FollowFreelanceController extends Controller
             $followfreelance = FollowFreelance::where('id', $id)->first();
             if ($followfreelance) {
                 $followfreelance->update([
-                'Platform' => $request->Platform,
-                'title' => $request->title,
-                'details' => $request->details,
-                'budget' => $request->budget,
-                'date' => $request->date,
+                    'Platform' => $request->Platform,
+                    'title' => $request->title,
+                    'details' => $request->details,
+                    'budget' => $request->budget,
+                    'date' => $request->date,
                 ]);
                 return response()->json([
                     'message' => 'User successfully update',
                     'user' => $followfreelance,
                     'status' => 201
                 ]);
-            }else {
+            } else {
                 return response()->json([
                     'message' => 'failed',
                 ], 404);
@@ -171,5 +176,17 @@ class FollowFreelanceController extends Controller
     public function destroy($id)
     {
 
+        $course = FollowFreelance::destroy($id);
+
+        if ($course) {
+            return response()->json([
+                'message' => 'FollowFreelance deleted successfully',
+                'status' => 201
+            ]);
+        } else {
+            return response()->json([
+                'massage' => 'Faild',
+            ]);
+        }
     }
 }

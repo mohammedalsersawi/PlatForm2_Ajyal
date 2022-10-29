@@ -23,7 +23,7 @@ class CourseController extends Controller
         if ($user->type == 'Coach') {
             $coach = Coach::where('user_id', $user->id)->first();
             $courses_coach_id = $coach->user_id;
-            $items = Course::where('courses_coach_id', $courses_coach_id)->latest()->paginate(15);
+            $items = Course::where('courses_coach_id', $courses_coach_id)->with('users:user_id,name')->latest()->paginate(15);
             return response()->json([
                 'current_Page' => $items->currentPage(),
                 'total_Page' => $items->total(),
@@ -34,7 +34,7 @@ class CourseController extends Controller
                 'status' => 201
             ]);
         } elseif ($user->type == 'Admin') {
-            $items = Course::latest()->paginate(15);
+            $items = Course::with('users:user_id,name')->latest()->paginate(15);
             return response()->json([
                 'current_Page' => $items->currentPage(),
                 'total_Page' => $items->total(),
