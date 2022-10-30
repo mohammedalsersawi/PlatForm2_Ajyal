@@ -42,7 +42,7 @@ class FollowFreelanceController extends Controller
     public function show_freelances()
     {
         $show_freelances = FollowFreelance::with('trainee:user_id,name')
-        ->orderByRaw('created_at - user_id ')
+        ->orderByRaw('user_id')
         ->latest()->paginate(15);
         if ($show_freelances) {
             return response()->json([

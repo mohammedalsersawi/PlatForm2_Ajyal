@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('image')->nullable()->default('https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg');
             $table->string('link')->nullable();
             $table->integer('job_number')->nullable();
-            $table->integer('total_income')->nullable();
+            $table->integer('total_income')->default(0);
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->enum('level', ['Featured', 'weak'])->nullable();
             $table->enum('status', ['active', 'archived'])->default('active');

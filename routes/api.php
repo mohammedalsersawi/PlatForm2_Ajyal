@@ -111,7 +111,8 @@ Route::middleware(['auth:sanctum' , 'admin',  'coach'])->prefix('coach')->group(
 });
 
 Route::middleware(['auth:sanctum'])->prefix('trainee')->group(function () {
-    Route::apiResource('followfreelance', FollowFreelanceController::class);
+    Route::apiResource('followfreelance', FollowFreelanceController::class)->except('update');
+    Route::post('followfreelance/{id}', [FollowFreelanceController::class, 'update']);
 });
 
 
