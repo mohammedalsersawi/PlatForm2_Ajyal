@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('trainees', function (Blueprint $table) {
-            // $table->integer('id')->nullable();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
             $table->string('national_id')->unique();
