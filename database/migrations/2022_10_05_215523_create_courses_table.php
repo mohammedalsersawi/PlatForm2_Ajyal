@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('time');
             $table->foreignId('courses_coach_id')->constrained('coaches' ,'user_id')->cascadeOnDelete();
-            $table->date('start_date');
             $table->string('image');
             $table->string('link')->nullable();
             $table->enum('classification', ['مدني', 'فري لانسر' , 'تقني']);

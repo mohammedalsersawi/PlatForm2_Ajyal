@@ -96,7 +96,6 @@ class CourseController extends Controller
             'courses_coach_id' => 'required',
             'time' => 'required',
             'classification' => 'required',
-            'start_date' => 'required',
             'image' => 'required',
         ]);
 
@@ -113,7 +112,6 @@ class CourseController extends Controller
                 'courses_coach_id' => $request->courses_coach_id,
                 'time' => $request->time,
                 'classification' => $request->classification,
-                'start_date' => $request->start_date,
                 'link' => $request->link,
                 'image' => "/uploads/Course/$newfile",
             ]);
@@ -137,7 +135,6 @@ class CourseController extends Controller
             'courses_coach_id' => 'required|integer',
             'time' => 'required',
             'classification' => 'required',
-            'start_date' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -158,7 +155,6 @@ class CourseController extends Controller
                         'courses_coach_id' => $request->courses_coach_id,
                         'time' => $request->time,
                         'classification' => $request->classification,
-                        'start_date' => $request->start_date,
                         'link' => $request->link,
                     ]);
                     return response()->json([
@@ -172,7 +168,6 @@ class CourseController extends Controller
                         'courses_coach_id' => $request->courses_coach_id,
                         'time' => $request->time,
                         'classification' => $request->classification,
-                        'start_date' => $request->start_date,
                         'link' => $request->link,
                     ]);
                     return response()->json([
