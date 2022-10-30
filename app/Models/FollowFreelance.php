@@ -10,7 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class FollowFreelance extends Model
 {
     use HasFactory;
-    protected $dates = ['created_at','updated_at'];
+    protected $dates = ['created_at', 'updated_at'];
+    protected function serializeDate(DateTimeInterface $dates)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $dates)->format('Y-m-d');
+    }
 
     protected $fillable = [
         'Platform',
@@ -21,18 +25,15 @@ class FollowFreelance extends Model
         'user_id'
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
     public function trainee()
     {
-        return $this->belongsTo(Trainee::class,'user_id');
+        return $this->belongsTo(Trainee::class, 'user_id');
     }
 
-    protected function serializeDate(DateTimeInterface $dates)
-            {
-                //return Carbon::createFromFormat('Y-m-d H:i:s', $dates)->diffForHumans();
-                return Carbon::createFromFormat('Y-m-d H:i:s', $dates)->format('Y-m-d');
-            }
+
 }
