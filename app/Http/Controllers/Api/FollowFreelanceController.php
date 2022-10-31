@@ -42,8 +42,8 @@ class FollowFreelanceController extends Controller
     public function show_freelances()
     {
         $show_freelances = FollowFreelance::with('trainee:user_id,name')
-        ->orderByRaw('user_id')
-        ->latest()->paginate(15);
+            ->orderByRaw('user_id')
+            ->latest()->paginate(15);
         if ($show_freelances) {
             return response()->json([
                 'current_Page' => $show_freelances->currentPage(),
@@ -57,7 +57,8 @@ class FollowFreelanceController extends Controller
         } else {
             return response()->json([
                 'message' => 'failed',
-            ], 404);
+                'status' => 404,
+            ]);
         }
     }
 
@@ -156,6 +157,14 @@ class FollowFreelanceController extends Controller
                     'budget' => $request->budget,
                     'date' => $request->date,
                 ]);
+                $user = Auth::guard('sanctum')->user();
+                $total_income = Trainee::where('user_id', $user->id)->first();
+                $old_income = $total_income->total_income;
+                $new_income = $old_income + $request->budget;
+                $total_income->update([
+                    'total_income' => $new_income,
+                ]);
+
                 return response()->json([
                     'message' => 'User successfully update',
                     'user' => $followfreelance,
