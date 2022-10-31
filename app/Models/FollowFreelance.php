@@ -16,6 +16,7 @@ class FollowFreelance extends Model
         return Carbon::createFromFormat('Y-m-d H:i:s', $dates)->format('Y-m-d');
     }
 
+
     protected $fillable = [
         'Platform',
         'title',
