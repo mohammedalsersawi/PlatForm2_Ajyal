@@ -52,6 +52,15 @@ class CourseController extends Controller
         $course = Course::with(['trainees'])->findOrFail($id);
         return $course;
     }
+    public function show_Course()
+    {
+        $course = Course::get(['id' , 'name']);
+        return response()->json([
+            'message' => 'successfully',
+            'data' => $course,
+            'status' => 201
+        ]);
+    }
 
     public function show_allcourses()
     {
@@ -158,7 +167,7 @@ class CourseController extends Controller
                         'link' => $request->link,
                     ]);
                     return response()->json([
-                        'message' => ' successfully update',
+                        'message' => 'successfully update',
                         'user' => $course,
                         'status' => 201
                     ]);

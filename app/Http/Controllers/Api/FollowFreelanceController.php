@@ -149,6 +149,15 @@ class FollowFreelanceController extends Controller
             return response()->json($validator->errors(), 422);
         } else {
             $followfreelance = FollowFreelance::where('id', $id)->first();
+            $user = Auth::guard('sanctum')->user();
+            $total_income_tra = Trainee::where('user_id', $user->id)->first();
+            $total_income = $total_income_tra->total_income;
+            $old_income = $followfreelance->budget;
+            $update_income = $total_income - $old_income;
+            $new_income = $update_income + $request->budget;
+            $total_income_tra->update([
+                'total_income' => $new_income,
+            ]);
             if ($followfreelance) {
                 $followfreelance->update([
                     'Platform' => $request->Platform,
@@ -157,13 +166,7 @@ class FollowFreelanceController extends Controller
                     'budget' => $request->budget,
                     'date' => $request->date,
                 ]);
-                $user = Auth::guard('sanctum')->user();
-                $total_income = Trainee::where('user_id', $user->id)->first();
-                $old_income = $total_income->total_income;
-                $new_income = $old_income + $request->budget;
-                $total_income->update([
-                    'total_income' => $new_income,
-                ]);
+
 
                 return response()->json([
                     'message' => 'User successfully update',
@@ -186,7 +189,15 @@ class FollowFreelanceController extends Controller
      */
     public function destroy($id)
     {
-
+        $user = Auth::guard('sanctum')->user();
+        $total_income_tra = Trainee::where('user_id', $user->id)->first();
+        $total_income = $total_income_tra->total_income;
+        $FollowFreelance = FollowFreelance::where('id', $id)->first();
+        $old_income = $FollowFreelance->budget;
+        $new_income = $total_income - $old_income;
+        $total_income_tra->update([
+            'total_income' => $new_income,
+        ]);
         $course = FollowFreelance::destroy($id);
 
         if ($course) {

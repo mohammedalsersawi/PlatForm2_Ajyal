@@ -13,6 +13,7 @@ class AttendanceTrainee extends Model
     use HasFactory;
     protected $guarded = [];
     protected $dates = ['created_at', 'updated_at'];
+
     protected function serializeDate(DateTimeInterface $dates)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $dates)->format('Y-m-d');

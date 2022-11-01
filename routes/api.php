@@ -44,7 +44,7 @@ Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
     Route::get('user/logout', [UserController::class, 'logout']);
 });
 
-Route::middleware(['auth:sanctum' , 'admin'])->prefix('admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::post('admin', [AdminController::class, 'store']); //ADD
     Route::post('update/admin/{id}', [AdminController::class, 'update']); //ADD
 
@@ -73,6 +73,7 @@ Route::middleware(['auth:sanctum' , 'admin'])->prefix('admin')->group(function (
     Route::post('course/{id}', [CourseController::class, 'update']);
     Route::get('showday/{id}', [CourseController::class, 'showday']);
     Route::get('showday/trainee/{id}', [CourseController::class, 'show_trainee_Course']);
+    Route::get('show/Course', [CourseController::class, 'show_Course']);
 
 
 
